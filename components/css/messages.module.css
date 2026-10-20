@@ -1,0 +1,124 @@
+.container {
+  color: white;
+  height: max-content;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  max-width: 94vw;
+  width: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  z-index: 1111;
+}
+
+.addButton {
+  background: #007AFF;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.notification {
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 15px;
+  position: relative;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  transform: scale(0.98) translateX(-50%); /* ADDED translateX(-50%) */
+  overflow: hidden;
+  user-select: none;
+  scroll-snap-align: start;
+  left: 50%; /* This centers the left edge at 50%, so we need to offset by 50% of width */
+  margin-bottom: 10px; /* Added spacing between notifications */
+}
+
+.action {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav {
+  background-color: rgb(65, 66, 66);
+  border-radius: 15px;
+  padding: 5px 15px;
+  text-decoration: none;
+  color: #ddd;
+}
+
+.notification.active {
+  opacity: 1;
+  transform: scale(1) translateX(-50%); /* ADDED translateX(-50%) */
+}
+
+.notification.swiping {
+  transition: none;
+}
+
+.notification.removing {
+  transform: translateX(100%) scale(0.9);
+  opacity: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.appInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appName {
+  font-weight: 500;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.time {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.content {
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.notification.active .closeButton {
+  opacity: 1;
+}

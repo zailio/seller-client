@@ -1,0 +1,301 @@
+/* css/components/ProductAttachmentTab.css */
+.twoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .twoGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.productTicker {
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #f0f0f0;
+    padding: 10px;
+}
+
+.productTicker h2 {
+    color: #3a0ca3;
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    color: #4361ee;
+}
+
+.tickerHeader {
+    border-bottom: 1px solid #edf0f3;
+}
+
+.searchRow {
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    margin-bottom: 8px;
+    padding: 0 12px;
+    gap: 20px;
+}
+
+.searchRow input {
+    height: 40px;
+    background: #f0f3f7;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1;
+    border: none;
+    outline: none;
+}
+
+.searchIcon {
+    color: #7c8894;
+    background: #f0f3f7;
+    line-height: 1;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.searchInput {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+    padding: 7px 0;
+    outline: none;
+}
+
+.searchInput::placeholder {
+    color: #9aa9b7;
+    font-weight: 300;
+    letter-spacing: -0.2px;
+}
+
+.selectedToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #2e3b4b;
+    padding: 2px 0 4px 0;
+}
+
+.tickBadge {
+    background: #e6f0ff;
+    padding: 4px 10px;
+    border-radius: 40px;
+    font-weight: 480;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tickBadge span {
+    color: #0066d9;
+    font-size: 14px;
+    font-weight: 560;
+}
+
+.untickAll {
+    background: none;
+    border: 1px solid #d5dee8;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    color: #415462;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.untickAll:hover {
+    background: #f0f4fa;
+    border-color: #b1c3d4;
+}
+
+.productList {
+    list-style: none;
+    max-height: 340px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding: 4px 0;
+    margin: 0;
+}
+
+.productItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    border-bottom: 1px solid #f0f4f9;
+    transition: background 0.1s;
+    cursor: pointer;
+}
+
+.productItem:hover {
+    background: #fafcff;
+}
+
+.productImg {
+    width: 42px;
+    height: 42px;
+    background: #eef2f6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.productInfo {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.productName {
+    font-size: 15px;
+    font-weight: 520;
+    color: #1c2a38;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.productMeta {
+    gap: 10px;
+    font-size: 12px;
+}
+
+.productRate {
+    width: max-content;
+    background: #fbbf2410;
+    color: #b1530b;
+    font-weight: 560;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.productRate strong {
+    color: #34d947
+}
+
+.stars {
+    letter-spacing: 1px;
+    color: #6b6b6b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stars span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.heart {
+    color: #da4b27;
+}
+
+.eye {
+    color: #2e3b4b;
+}
+
+.tickWrap input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #0066d9;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0;
+    pointer-events: none;
+}
+
+.selectedSection {
+    background: #f9fcff;
+    border-top: 1px solid #e9eef3;
+    padding: 8px 12px 10px 12px;
+}
+
+.selectedTitle {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    color: #57708c;
+    margin-bottom: 6px;
+}
+
+.selectedChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    background: white;
+    border: 1px solid #dce5ed;
+    border-radius: 40px;
+    padding: 4px 12px 4px 8px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.chipEmoji {
+    font-size: 16px;
+}
+
+.chipName {
+    max-width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chipUntick {
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    color: #8699aa;
+    padding: 0 0 0 4px;
+    transition: color 0.1s;
+}
+
+.chipUntick:hover {
+    color: #c00;
+}
+
+.emptySelection {
+    color: #99aebb;
+    font-size: 13px;
+    padding: 6px 0;
+    font-style: italic;
+}
+
+.productList::-webkit-scrollbar {
+    width: 4px;
+}
+
+.productList::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 20px;
+}

@@ -1,0 +1,49 @@
+.statsContainer {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    gap: 15px;
+    margin: 10px 0;
+    padding: 10px;
+    min-height: 120px;
+}
+
+.statCard {
+    background-color: white;
+    padding: 5px;
+    border-radius: 8px;
+
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+    height: max-content;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2a6496;
+    margin: 0;
+}
+
+.statLabel {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.pendingOrders {
+    border-top: 4px solid #f39c12;
+}
+
+.trackedOrders {
+    border-top: 4px solid #3498db;
+}
+
+.completedOrders {
+    border-top: 4px solid #2ecc71;
+}
+
+.cancelledOrders {
+    border-top: 4px solid #e74c3c;
+}

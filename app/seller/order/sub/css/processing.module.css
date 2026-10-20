@@ -1,0 +1,422 @@
+/* processing.module.css */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ---------- empty state ---------- */
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.emptyIcon {
+    font-size: 40px;
+    color: #a5b4fc;
+    margin-bottom: 16px;
+}
+
+.emptyTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px;
+}
+
+.emptyBody {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    max-width: 360px;
+}
+
+/* ---------- table shell ---------- */
+
+.tableScroll {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 960px;
+}
+
+.tableHead {
+    background: #eef2ff;
+}
+
+.headCell {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #4338ca;
+    white-space: nowrap;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.headCell span {
+    vertical-align: middle;
+}
+
+.row {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.15s ease;
+}
+
+.row:hover {
+    background-color: #f8fafc;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.cell {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #374151;
+    vertical-align: top;
+}
+
+/* ---------- combo pack tints ---------- */
+/* shared with pickup.module.css — keep colors identical across both so a
+   given apide reads visually the same whichever tab it's shown in */
+
+.comboTint0 {
+    background-color: #eef2ff;
+}
+
+.comboTint1 {
+    background-color: #ecfdf5;
+}
+
+.comboTint2 {
+    background-color: #fffbeb;
+}
+
+.comboTint3 {
+    background-color: #fdf2f8;
+}
+
+.comboTint4 {
+    background-color: #f0f9ff;
+}
+
+.comboTint0:hover,
+.comboTint1:hover,
+.comboTint2:hover,
+.comboTint3:hover,
+.comboTint4:hover {
+    filter: brightness(0.98);
+}
+
+.comboBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #6366f1;
+}
+
+.comboBadge svg {
+    font-size: 10px;
+}
+
+/* ---------- product cell ---------- */
+
+.productCell {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.productImage {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f3f4f6;
+    flex-shrink: 0;
+}
+
+.orderIdLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+.productName {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.orderDate {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+/* ---------- stacked info / generic text ---------- */
+
+.stackedInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.primaryLine {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+}
+
+.secondaryLine {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.money {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.naText {
+    font-size: 12px;
+    color: #b0b6c2;
+    font-style: italic;
+}
+
+.linkBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4f46e5;
+    cursor: pointer;
+}
+
+.linkBtn:hover {
+    text-decoration: underline;
+}
+
+.linkBtn svg {
+    font-size: 13px;
+}
+
+/* ---------- pills ---------- */
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pillPrepaid {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.pillCod {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.whPill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #f3f4f6;
+    color: #4b5563;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ---------- info trigger (collected-fee tooltip button) ---------- */
+
+.infoTrigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #a5b4fc;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.infoTrigger:hover {
+    color: #6366f1;
+}
+
+/* ---------- tracking / "where it's reached" column ---------- */
+
+.trackCell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 280px;
+}
+
+.trackBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.trackBadgeActive {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.trackBadgeMuted {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.trackDot {
+    font-size: 8px;
+}
+
+.trackBadgeActive .trackDot {
+    color: #6366f1;
+}
+
+.trackLine {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #4b5563;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.trackLine strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.trackTime {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* ---------- misc / action button (unused here but kept for parity) ---------- */
+
+.actionsCell {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.moreBtn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.moreBtn:hover {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.moreActionsMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10;
+    margin-top: 4px;
+    min-width: 200px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.moreActionsOption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    text-align: left;
+}
+
+.moreActionsOption:hover {
+    background: #f8fafc;
+}
+
+.moreActionsIcon {
+    font-size: 14px;
+    color: #6366f1;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 768px) {
+    .table {
+        min-width: 780px;
+    }
+
+    .trackCell {
+        max-width: 200px;
+    }
+}

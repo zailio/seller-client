@@ -1,0 +1,35 @@
+/* css/components/TabNavigation.css */
+.tab_navigation {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid #e2e8f0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tab {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    color: #334155;
+    background-color: #f8fafc;
+    border-radius: 6px 6px 0 0;
+}
+
+.tab.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}

@@ -1,0 +1,261 @@
+.formSection {
+    border: 2px solid #f0f0f0;
+    background: white;
+    border-radius: 16px;
+    padding: 10px;
+}
+
+.formSection h2 {
+    color: #3a0ca3;
+    margin: 0;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    color: #4361ee;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #4361ee;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+}
+
+.btn:hover {
+    background-color: #3a0ca3;
+    transform: translateY(-2px);
+
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btnDanger {
+    background-color: #e74c3c;
+}
+
+.btnDanger:hover {
+    background-color: #c0392b;
+}
+
+.btnSm {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.attachmentOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.attachmentOption {
+    padding: 12px 20px;
+    background-color: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.attachmentOption:hover {
+    border-color: #4361ee;
+    color: #4361ee;
+    transform: translateY(-2px);
+
+}
+
+.optionIcon {
+    font-size: 18px;
+}
+
+.addedAttachments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 20px;
+}
+
+.attachmentItem {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+    position: relative;
+
+}
+
+.attachmentItem:hover {
+
+    border-color: #4cc9f0;
+}
+
+.attachmentHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+}
+
+.attachmentIcon {
+    font-size: 22px;
+    color: #4361ee;
+    margin-top: 3px;
+}
+
+.attachmentInfo {
+    flex-grow: 1;
+}
+
+.attachmentTitle {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.attachmentControls {
+    display: flex;
+    gap: 10px;
+    margin-left: 15px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.formControl {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.formControl:focus {
+    border-color: #4cc9f0;
+    outline: none;
+
+}
+
+.badge {
+    background-color: #573806;
+    color: #fff;
+    border-radius: 50%;
+}
+
+.badgeInfo {
+    background-color: #4cc9f0;
+    color: white;
+}
+
+.imageUploadContainer {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f8fafc;
+    margin-top: 10px;
+}
+
+.uploadIcon {
+    font-size: 40px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+.imageUploadBtn {
+    background-color: #4361ee;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.imageUploadBtn:hover {
+    background-color: #3a0ca3;
+}
+
+.emptyState {
+    padding: 40px;
+    text-align: center;
+    color: #64748b;
+}
+
+.emptyIcon {
+    font-size: 50px;
+    color: #cbd5e1;
+}
+
+.emptyState h3 {
+    color: #475569;
+    margin: 5px 0;
+}
+
+.emptyState p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .emptyState {
+        padding: 0;
+    }
+
+    .attachmentOptions {
+        flex-direction: column;
+    }
+
+    .attachmentItem {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .attachmentControls {
+        width: 100%;
+        justify-content: flex-end;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

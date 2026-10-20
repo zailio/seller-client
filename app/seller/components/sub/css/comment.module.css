@@ -1,0 +1,522 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    min-height: 60vh;
+    height: max-content;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+
+    overflow: hidden;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    max-width: 600px;
+    width: 100%;
+    bottom: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #606060;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    background-color: #f0f0f0;
+}
+
+.tab.active {
+    background-color: #e0e0e0;
+    color: #202020;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #606060;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.commentsList {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    place-items: center;
+    color: #909090;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.emptyState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color: #909090;
+    font-size: 14px;
+}
+
+.commentItem {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.commentAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.commentAvatar img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.commenterInfo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: #404040;
+    color: #065fd4;
+    border-radius: 50%;
+}
+
+.commentContent {
+    flex: 1;
+    background-color: rgb(255, 255, 255, 0.5);
+    padding: 5px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid #eae9e9;
+}
+
+.commentHeader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 16px;
+    color: #202020;
+}
+
+.date {
+    font-size: 13px;
+    color: #909090;
+}
+
+.commentDot {
+    margin-left: auto;
+}
+
+.commentText {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #404040;
+    margin: 4px 0;
+}
+
+.commentActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.likeButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #606060;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.likeButton:hover {
+    background-color: #f5f5f5;
+}
+
+.replyBtn {
+    border: none;
+    background: none;
+    color: #065fd4;
+}
+
+.viewReplyBtn {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin: 5px 0;
+    border: none;
+    background: none;
+    color: #7f7e7e;
+    width: 100%;
+    text-align: left;
+    padding-left: 50px;
+    padding-bottom: 5px;
+}
+
+.repliesList {
+    padding: 10px 0;
+}
+
+.replyItem {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.replyCommentContent {
+    flex: 1;
+    display: flex;
+}
+
+.replyData {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    gap: 5px;
+}
+
+.replyCommentAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+}
+
+.replyCommentAvatar img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.replyUsername {
+    font-weight: 600;
+    font-size: 14px;
+    color: #202020;
+}
+
+.replyTime {
+    font-size: 11px;
+    color: #909090;
+}
+
+.replyActions {
+    display: flex;
+    margin-left: auto;
+    position: relative;
+    align-items: center;
+}
+
+.replyCommentText {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #404040;
+    margin: 3px 0;
+}
+
+.hideReplyBtn {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin: 0;
+    border: none;
+    background: none;
+    color: #1b1b1c;
+    width: 100%;
+    text-align: left;
+    padding-bottom: 5px;
+    color: #404040;
+}
+
+.replyContiner {
+    border-top: 2px solid #b2b0b0;
+    background-color: #413c3c;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-20px);
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+}
+
+.replyContiner.visible {
+    height: auto;
+    padding: 10px;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.replyContiner span {
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 400;
+    letter-spacing: 0.7px;
+}
+
+.questionContent {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2),
+        inset 0.5px 0.5px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: relative;
+}
+
+.questionInfo {
+    flex: 1;
+}
+
+.questionText {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #404040;
+    margin: 0;
+}
+
+.questionAnswer {
+    font-size: 13px;
+    line-height: 1.3;
+    color: #292929;
+    margin-left: 25px;
+    letter-spacing: 0.5px;
+}
+
+.replyQuestion {
+    border: none;
+    background: transparent;
+    color: #065fd4;
+}
+
+.qnaLike {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-top: 2px solid #e5e5e5;
+}
+
+.characterCounter {
+    align-self: flex-end;
+    background-color: #e2e2e2;
+    color: rgb(36, 65, 65);
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.addComment {
+    display: flex;
+    gap: 8px;
+}
+
+.commentInput {
+    flex: 1;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
+    resize: none;
+    min-height: 30px;
+    max-height: 120px;
+    transition: border-color 0.2s ease;
+    place-content: center;
+}
+
+.commentInput:focus {
+    outline: none;
+    border-color: #909090;
+}
+
+.submitButton {
+    padding: 0 16px;
+    border-radius: 20px;
+    border: none;
+    background-color: #065fd4;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submitButton:hover {
+    background-color: #0549a8;
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Shimmer effects */
+.shimmerItem {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.shimmerAvatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.shimmerContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.shimmerLine {
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        border-radius: 0;
+    }
+
+    .tabs {
+        gap: 4px;
+    }
+
+    .tab {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .commentItem {
+        gap: 8px;
+    }
+
+    .commentAvatar {
+        width: 35px;
+        height: 35px;
+    }
+
+    .replyCommentAvatar {
+        width: 30px;
+        height: 30px;
+    }
+}

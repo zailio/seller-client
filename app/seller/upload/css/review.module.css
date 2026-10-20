@@ -1,0 +1,124 @@
+/* css/components/ReviewUploadTab.css */
+.form_section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.review_summary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .review_grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.review_section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.review_section h4 {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+    color: #1e293b;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.review_item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.review_item span:nth-child(1) {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.review_item span:nth-child(2) {
+    font-weight: 600;
+    text-align: right;
+}
+
+.review_item span:nth-child(3) {
+    width: 100%;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.upload_action {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.btn:disabled {
+    background: #94a3b8;
+    cursor: wait;
+    box-shadow: none;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

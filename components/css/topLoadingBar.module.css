@@ -1,0 +1,45 @@
+/* topLoadingBar.module.css */
+
+.topLoadingBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 999999;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.active {
+    opacity: 1;
+}
+
+.topLoadingProgress {
+    width: 0;
+    height: 100%;
+    background: #0377fc;
+}
+
+.active .topLoadingProgress {
+    animation: topLoading 3s ease-out forwards;
+}
+
+@keyframes topLoading {
+    0% {
+        width: 0%;
+    }
+
+    70% {
+        width: 75%;
+    }
+
+    90% {
+        width: 92%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}

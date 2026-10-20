@@ -1,0 +1,471 @@
+/* order.module.css */
+.align {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.align textarea {
+  min-width: 320px;
+  max-width: 600px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  resize: none;
+}
+
+.align button {
+  background-color: #3498db;
+  color: white;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+}
+
+.container {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loadingSpinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+
+}
+
+.orderDetailsModal {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+/* Main Modal Overlay */
+.detailsModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeInOverlay 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Container */
+.detailsModalContainer {
+  background-color: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  animation: slideInOverlay 0.3s ease;
+}
+
+@keyframes slideInOverlay {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Modal Header */
+.detailsModalHeaderOverlay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}
+
+.detailsModalHeaderOverlay h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.detailsModalCloseOverlay {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0 10px;
+  transition: color 0.2s;
+}
+
+.detailsModalCloseOverlay:hover {
+  color: #333;
+}
+
+/* Modal Content */
+.detailsModalContentOverlay {
+  padding: 0 20px 20px;
+}
+
+.filterSortContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.sortOptions {
+  display: flex;
+  align-items: center;
+}
+
+.sortSelect {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.tableContainer {
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.title {
+  color: #333;
+  margin: 0;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+}
+
+.searchBar input {
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 250px;
+}
+
+.searchBar button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  margin-left: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.orderTabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.tab.active {
+  border-bottom: 3px solid #4CAF50;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.orderCard {
+  background-color: white;
+  border-radius: 8px;
+
+  padding: 15px;
+  transition: transform 0.2s;
+}
+
+.orderCard:hover {
+  transform: translateY(-5px);
+
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.orderId {
+  font-weight: bold;
+  color: #333;
+}
+
+.orderStatus {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.statusPending {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.statusCompleted {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+.statusTracked {
+  background-color: #D1ECF1;
+  color: #0C5460;
+}
+
+.statusCancelled {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  z-index: 100;
+  min-width: 120px;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background: #f5f5f5;
+}
+
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.moreButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  z-index: 100;
+  min-width: 150px;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f5f5f5;
+}
+
+.filterSortContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sortOptions {
+  margin-left: 20px;
+}
+
+.sortSelect {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.orderHeaderRight {
+  display: flex;
+  align-items: center;
+}
+
+.detailLabel {
+  color: #777;
+}
+
+.detailValue {
+  font-weight: 500;
+}
+
+.orderActions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionBtn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.viewBtn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.editBtn {
+  background-color: #FFC107;
+  color: #333;
+}
+
+.cancelBtn {
+  background-color: #DC3545;
+  color: white;
+}

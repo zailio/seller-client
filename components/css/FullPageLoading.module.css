@@ -1,0 +1,196 @@
+.overlay {
+    background: rgb(0, 0, 0, 0.6);
+    backdrop-filter: blur(1px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 111;
+}
+
+
+/* Main Spinner */
+.spinnerContainer {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.outerRing {
+    width: 100%;
+    height: 100%;
+    border: 4px solid #dbeafe;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.innerRing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-top: 4px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.centerDot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+}
+
+/* Loading Text */
+.loadingText {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.text {
+    color: #4b5563;
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.darkText {
+    composes: text;
+    color: #d1d5db;
+}
+
+.dotsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+.dot1 {
+    composes: dot;
+    animation-delay: -0.32s;
+}
+
+.dot2 {
+    composes: dot;
+    animation-delay: -0.16s;
+}
+
+.dot3 {
+    composes: dot;
+}
+
+/* Progress Bar */
+.progressContainer {
+    margin-top: 32px;
+    width: 256px;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.darkProgressContainer {
+    composes: progressContainer;
+    background: #374151;
+}
+
+.progressBar {
+    background: #2563eb;
+    height: 100%;
+    border-radius: 9999px;
+    animation: pulse 2s infinite;
+    width: 75%;
+}
+
+/* Percentage */
+.percentage {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #6b7280;
+    font-family: monospace;
+}
+
+.darkPercentage {
+    composes: percentage;
+    color: #9ca3af;
+}
+
+/* Cancel Button */
+.cancelButton {
+    margin-top: 24px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #6b7280;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.cancelButton:hover {
+    color: #374151;
+}
+
+.darkCancelButton {
+    composes: cancelButton;
+    color: #9ca3af;
+}
+
+.darkCancelButton:hover {
+    color: #e5e7eb;
+}
+
+/* Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}

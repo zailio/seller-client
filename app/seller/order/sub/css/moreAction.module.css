@@ -1,0 +1,36 @@
+.moreActionsMenu {
+    position: absolute;
+    right: 40px;
+    top: 100%;
+    margin-top: 0.25rem;
+    width: 13rem;
+    background-color: white;
+    border-radius: 0.25rem;
+    border: 1px solid #e5e7eb;
+    z-index: 10;
+}
+
+.moreActionsOption {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: #374151;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.moreActionsOption:hover {
+    background-color: #f3f4f6;
+}
+
+.moreActionsIcon {
+    margin-right: 0.5rem;
+    color: #6b7280;
+}
+.flexBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

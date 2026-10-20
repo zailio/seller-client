@@ -1,0 +1,244 @@
+/* components/PolicyEditor/PolicyEditor.module.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.previewButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.previewButton:hover {
+  background-color: #3a5a8f;
+}
+
+.editorContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  
+}
+
+.sectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sectionItem {
+  padding: 10px 15px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.sectionItem:hover {
+  background-color: #e0e0e0;
+}
+
+.sectionItem.active {
+  background-color: #4a6fa5;
+  color: white;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  padding: 2px;
+  font-size: 12px;
+}
+
+.sectionItem.active .deleteButton {
+  color: white;
+}
+
+.addSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addSection input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.addButton:hover {
+  background-color: #3e8e41;
+}
+
+.contentArea {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  
+}
+
+.toolbar {
+  display: flex;
+  gap: 5px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.toolButton {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #555;
+}
+
+.toolButton:hover {
+  background-color: #f0f0f0;
+}
+
+.toolButton.active {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.toolSeparator {
+  width: 1px;
+  height: 36px;
+  background-color: #ddd;
+  margin: 0 5px;
+}
+
+.editor {
+  min-height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+.editableContent {
+  outline: none;
+  min-height: 250px;
+}
+
+.editableContent img {
+  max-width: 100%;
+  max-height: 30vh;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
+
+.previewContent img {
+  max-width: 100%;
+  max-height: 30vh;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
+
+.editableContent ul {
+  padding-left: 20px;
+}
+
+.editableContent li {
+  margin-bottom: 5px;
+}
+
+.preview {
+  padding: 15px;
+}
+
+.preview h2 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.previewContent {
+  line-height: 1.6;
+}
+
+.previewContent img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .editorContainer {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

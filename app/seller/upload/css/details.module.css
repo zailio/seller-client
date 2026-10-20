@@ -1,0 +1,667 @@
+/* css/components/ProductDetailsTab.css */
+.form_section {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.form_section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+/* Form Group Styles */
+.form_group {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form_group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.form_group label span {
+  color: #ef4444;
+  margin-left: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: #fee2e2;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Input Fields */
+.form_group input[type="text"],
+.form_group input[type="number"],
+.form_group select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form_group input:hover,
+.form_group select:hover {
+  border-color: #94a3b8;
+}
+
+.form_group input:focus,
+.form_group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form_group input::placeholder {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* Gender Select Specific */
+.form_group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Size Input Hint */
+.size_hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.size_hint::before {
+  content: '💡';
+  font-size: 1rem;
+}
+
+/* Inventory Section */
+.inventory_section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px dashed #cbd5e1;
+  background: linear-gradient(to bottom, #fafafa, transparent);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.subsection_title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.subsection_title::before {
+  content: '📦';
+  font-size: 1.4rem;
+}
+
+/* Inventory Grid */
+.inventory_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .inventory_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Weight Helper Text */
+.weight_helper {
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  display: block;
+  background: #f1f5f9;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  line-height: 1.5;
+}
+
+.weight_helper strong {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Shipment Dimensions */
+.shipment_dimensions {
+  background-color: #f8fafc;
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  margin-top: 24px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.dimension_title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0369a1;
+  margin-top: 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dimension_title::before {
+  content: '📐';
+  font-size: 1.2rem;
+}
+
+.dimensions_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .dimensions_grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dimensions_grid .form_group {
+  margin-bottom: 0;
+}
+
+.dimensions_grid .form_group label {
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.dimensions_grid .form_group input {
+  padding: 10px 12px;
+  background: white;
+}
+
+/* Points Section */
+.points_section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .points_section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.points_section > div {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.points_section > div:first-child {
+  border-top: 4px solid #3b82f6;
+}
+
+.points_section > div:last-child {
+  border-top: 4px solid #10b981;
+}
+
+.points_section label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.points_section label::after {
+  content: ' (Click + to add)';
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #64748b;
+  margin-left: 8px;
+}
+
+/* Point Input */
+.point_input {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.point_input input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.point_input input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.point_input input::placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.add_point {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.add_point:hover:not(:disabled) {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px -1px rgba(37, 99, 235, 0.3);
+}
+
+.add_point:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.add_point:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+/* Points List */
+.points_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+.points_list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+  animation: slideIn 0.3s ease;
+}
+
+.points_list li:hover {
+  background: #f1f5f9;
+  transform: translateX(2px);
+  border-color: #cbd5e1;
+}
+
+.points_list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Point Types Styling */
+.points_section > div:first-child .points_list li::before {
+  content: '⚡';
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.points_section > div:last-child .points_list li::before {
+  content: '💰';
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.remove_point {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  margin-left: 8px;
+}
+
+.remove_point:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+.remove_point svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Empty State */
+.points_list:empty::after {
+  content: 'No points added yet';
+  display: block;
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+  font-style: italic;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px dashed #e2e8f0;
+}
+
+/* Custom Scrollbar for Points List */
+.points_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.points_list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.points_list::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+
+.points_list::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* KeyValueSelector Container (if needed) */
+.keyvalue_container {
+  margin-top: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.keyvalue_container h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading State */
+.loading_skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  height: 20px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .form_section {
+    padding: 16px;
+  }
+
+  .points_section {
+    gap: 20px;
+  }
+
+  .point_input {
+    flex-direction: column;
+  }
+
+  .add_point {
+    width: 100%;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .dimensions_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory_grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tooltip Styles */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  color: #64748b;
+  cursor: help;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+/* Form Validation Styles */
+.form_group input:invalid,
+.form_group select:invalid {
+  border-color: #fca5a5;
+  background-color: #fff5f5;
+}
+
+.form_group input:focus:invalid,
+.form_group select:focus:invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+/* Required Field Indicator */
+.required_field::after {
+  content: '*';
+  color: #ef4444;
+  margin-left: 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Section Divider */
+.section_divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 32px 0 24px;
+}
+
+.section_divider::before,
+.section_divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px dashed #e2e8f0;
+}
+
+.section_divider span {
+  padding: 0 16px;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Info Cards */
+.info_card {
+  background: #f0f9ff;
+  border-left: 4px solid #3b82f6;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.info_card p {
+  margin: 0;
+  color: #1e40af;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Badge for Counts */
+.count_badge {
+  background: #2563eb;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* Hover Effects for Interactive Elements */
+.form_group input:not(:placeholder-shown):valid {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.form_group input:not(:placeholder-shown):valid + .valid_icon {
+  display: block;
+}
+
+/* Success Message */
+.success_message {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #a7f3d0;
+  font-size: 0.9rem;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success_message::before {
+  content: '✅';
+  font-size: 1.1rem;
+}
+
+/* Error Message */
+.error_message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+  font-size: 0.9rem;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error_message::before {
+  content: '❌';
+  font-size: 1.1rem;
+}
+
+/* Progress Indicator */
+.progress_bar {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.progress_fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}

@@ -1,0 +1,238 @@
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+    color: rgb(0, 131, 212);
+    padding: 20px 30px;
+}
+
+.title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.subtitle {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Filter Section */
+.filterSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filterLabel {
+    font-weight: 500;
+    color: #555;
+    white-space: nowrap;
+}
+
+.filterSelect {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 14px;
+    min-width: 150px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: #4b6cb7;
+}
+
+.resultsCount {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Dashboard Stats */
+.dashboardStats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.statCard {
+    flex: 1;
+    min-width: 150px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.statValue {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.profit {
+    color: #2ecc71;
+}
+
+.loss {
+    color: #e74c3c;
+}
+
+.statLabel {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Table Styles */
+.tableContainer {
+    overflow-x: auto;
+    padding: 0 10px 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tableHead {
+    position: sticky;
+    top: 0;
+}
+
+.tableHead th {
+    background-color: #4b6cb7;
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 15px;
+    position: sticky;
+    top: 0;
+}
+
+.tableBody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.tableRow:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.tableRow:hover {
+    background-color: #f0f5ff;
+}
+
+.totalRow {
+    font-weight: 700;
+    background-color: #e8edff !important;
+    border-top: 2px solid #4b6cb7;
+}
+
+
+.idColumn {
+    font-weight: 600;
+    text-align: left;
+    color: #4b6cb7;
+}
+
+.productName {
+    font-weight: 500;
+}
+
+.positive {
+    color: #2ecc71;
+}
+
+.negative {
+    color: #e74c3c;
+}
+
+/* No Data State */
+.noData {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Footer */
+.footerNote {
+    padding: 15px 20px;
+    font-size: 14px;
+    color: #666;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eaeaea;
+}
+
+.footerNote p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboardStats {
+        flex-direction: column;
+    }
+
+    .filterSection {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterGroup {
+        justify-content: space-between;
+    }
+
+    .tableHead th,
+    .tableBody td {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .header {
+        padding: 15px 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .statCard {
+        min-width: 100%;
+    }
+}

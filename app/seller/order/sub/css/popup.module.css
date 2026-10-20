@@ -1,0 +1,353 @@
+/* ---------- backdrop ---------- */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: rgba(15, 15, 20, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    animation: overlayFadeIn 0.18s ease-out;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---------- card ---------- */
+
+.popUp {
+    position: relative;
+    width: 90vw;
+    max-width: 600px;
+    height: auto;
+    max-height: 82vh;
+    overflow: hidden;
+    z-index: 1001;
+    background-color: #f7f7f9;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ececec;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    animation: cardPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ---------- top action buttons ---------- */
+
+.inVentery {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    gap: 10px;
+    display: flex;
+    z-index: 2;
+}
+
+.commonTopPopUp {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 3px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.commonTopPopUp:hover {
+    transform: scale(1.06);
+    background-color: #ffffff;
+}
+
+.closePopUp {
+    color: #DC3545;
+}
+
+.copyPopUp {
+    color: #4338ca;
+    padding: 2px;
+}
+
+/* ---------- scrollable body ---------- */
+
+.popUpDatas {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding-right: 4px;
+}
+
+.popUpDatas::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popUpDatas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.popUpDatas::-webkit-scrollbar-thumb {
+    background: #d0d0d5;
+    border-radius: 999px;
+}
+
+.popUpDatas::-webkit-scrollbar-thumb:hover {
+    background: #b8b8bf;
+}
+
+.popUpHead {
+    margin: 3px 0;
+    color: #666;
+    font-size: 15px;
+}
+
+.popUpData {
+    background-color: #fff;
+    border: 1px solid #e2e2e5;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin: 4px 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    box-sizing: border-box;
+}
+
+.popUpData strong::after {
+    content: ':';
+}
+
+.productData {
+    display: flex;
+    gap: 10px;
+    border: 1px solid #e2e2e5;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 11px;
+    padding: 5px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.imgPart {
+    width: 30%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid #e2e2e5;
+    border-radius: 7px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.imgPart img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dataPart {
+    min-width: 0;
+    flex: 1;
+    padding: 5px;
+}
+
+.dataPart h5 {
+    margin: 5px 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.popUpTable {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+    margin: 5px 0;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.popUpTable th,
+.popUpTable td {
+    color: #222;
+    border: 1px solid #e2e2e5;
+    text-align: center;
+    padding: 6px 8px;
+}
+
+/* ---------- tracking timeline ---------- */
+
+.timelineHeadRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.timelineUpdated {
+    font-size: 11px;
+    color: #888;
+}
+
+.timeline {
+    list-style: none;
+    margin: 8px 0 4px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.timelineStep {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    padding-bottom: 18px;
+}
+
+.timelineStep:last-child {
+    padding-bottom: 0;
+}
+
+.timelineStep:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 26px;
+    bottom: 0;
+    width: 2px;
+    background: #d8d8d8;
+}
+
+.timelineStepCompleted:not(:last-child)::before {
+    background: #4CAF50;
+}
+
+.timelineIcon {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    font-size: 12px;
+    background: #fff;
+    border: 2px solid #d8d8d8;
+    color: #b0b0b0;
+    z-index: 1;
+}
+
+.timelineStepCompleted .timelineIcon {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.timelineStepActive .timelineIcon {
+    border-color: #4338ca;
+    color: #4338ca;
+    background: #eef2ff;
+}
+
+.timelineStepPending .timelineIcon {
+    border-color: #d8d8d8;
+    color: #c2c2c2;
+}
+
+.timelineBody {
+    flex: 1;
+    min-width: 0;
+    padding-top: 2px;
+}
+
+.timelineTitle {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.timelineStepPending .timelineTitle {
+    color: #999;
+}
+
+.timelineStepActive .timelineTitle {
+    color: #4338ca;
+}
+
+.timelineEvents {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.timelineEvent {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #666;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 5px 8px;
+    user-select: text;
+}
+
+.timelineEvent strong {
+    color: #333;
+}
+
+.timelineStepActive .timelineEvent:last-child {
+    border-color: #c7d2fe;
+    background: #eef2ff;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 480px) {
+    .popUp {
+        width: 100%;
+        max-height: 88vh;
+        border-radius: 16px;
+        padding: 8px;
+    }
+
+    .imgPart {
+        width: 38%;
+    }
+}
