@@ -1,0 +1,1328 @@
+/* Zailio settlements. Same look as the pre-order and support pages. */
+.wrap {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --card-2: #f8f9fc;
+    --text: #1c2030;
+    --muted: #7a8094;
+    --line: #e6e8f0;
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --primary-soft: #e0e7ff;
+    --ok: #16a34a;
+    --ok-soft: #dcfce7;
+    --warn: #d97706;
+    --warn-soft: #fef3c7;
+    --danger: #dc2626;
+    --danger-soft: #fee2e2;
+    --info: #0284c7;
+    --info-soft: #e0f2fe;
+
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+    color: var(--text);
+    box-sizing: border-box;
+}
+
+.wrap *,
+.wrap *::before,
+.wrap *::after {
+    box-sizing: border-box;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.right {
+    text-align: right;
+}
+
+/* ---------- title ---------- */
+.topBar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.topText {
+    min-width: 0;
+}
+
+.pageTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 4px;
+    font-size: 24px;
+}
+
+.pageSub {
+    max-width: 64ch;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.topActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.sample {
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--warn);
+    background: var(--warn-soft);
+    border-radius: 999px;
+}
+
+/* ---------- stats ---------- */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.statIcon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+    border-radius: 12px;
+}
+
+.iconIndigo {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.iconGreen {
+    background: var(--ok-soft);
+    color: var(--ok);
+}
+
+.iconRed {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.iconAmber {
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.statLabel {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.statValue {
+    display: block;
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.statSub {
+    display: block;
+    min-height: 16px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ---------- layout ---------- */
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    min-width: 0;
+}
+
+/* ---------- toolbar ---------- */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.search {
+    display: flex;
+    flex: 1 1 260px;
+    align-items: center;
+    gap: 8px;
+    max-width: 420px;
+    padding: 0 12px;
+    color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.search:focus-within,
+.select:focus {
+    border-color: var(--primary);
+}
+
+.searchInput {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.filterIcon {
+    display: grid;
+    color: var(--muted);
+}
+
+.select {
+    height: 40px;
+    padding: 0 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    outline: none;
+}
+
+.clearBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--danger);
+    cursor: pointer;
+    background: none;
+    border: 0;
+}
+
+.seg {
+    display: flex;
+    gap: 6px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.seg::-webkit-scrollbar {
+    display: none;
+}
+
+.segBtn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.segBtn:hover {
+    color: var(--text);
+}
+
+.segOn,
+.segOn:hover {
+    color: var(--primary);
+    background: var(--primary-soft);
+    border-color: var(--primary);
+}
+
+.segCount {
+    min-width: 20px;
+    padding: 0 6px;
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+    color: var(--muted);
+    background: #eef0f6;
+    border-radius: 999px;
+}
+
+.segOn .segCount {
+    color: var(--primary);
+    background: var(--card);
+}
+
+/* ---------- settlement list ---------- */
+.listCard {
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+
+.listHeader,
+.row {
+    display: grid;
+    grid-template-columns:
+        minmax(190px, 1.7fr) 70px minmax(110px, 1fr) minmax(110px, 1fr) minmax(120px, 1.1fr) 110px minmax(104px, 0.9fr) 20px;
+    align-items: center;
+    gap: 14px;
+}
+
+.listHeader {
+    padding: 12px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--card-2);
+    border-bottom: 1px solid var(--line);
+}
+
+.rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rows li+li {
+    border-top: 1px solid var(--line);
+}
+
+.row {
+    width: 100%;
+    padding: 14px 18px;
+    font: inherit;
+    font-size: 14px;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-left: 3px solid transparent;
+    transition: background 0.15s ease;
+}
+
+.row:hover {
+    background: var(--card-2);
+}
+
+.rowActive,
+.rowActive:hover {
+    background: var(--primary-soft);
+    border-left-color: var(--primary);
+}
+
+.cId {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.cId strong {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cId small {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.cell {
+    font-variant-numeric: tabular-nums;
+}
+
+.cOrders,
+.cGross,
+.cDed,
+.cNet {
+    text-align: right;
+}
+
+.cDed {
+    color: var(--muted);
+}
+
+.cNet {
+    font-weight: 700;
+}
+
+.cDate {
+    font-size: 13px;
+}
+
+.cGo {
+    display: grid;
+    color: var(--muted);
+}
+
+.listFoot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    background: var(--card-2);
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 56px 16px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.emptyState p {
+    margin: 0;
+}
+
+.emptyIcon {
+    font-size: 42px;
+}
+
+/* ---------- pills ---------- */
+.pillOk,
+.pillWarn,
+.pillInfo,
+.pillDanger {
+    display: inline-block;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 999px;
+}
+
+.pillOk {
+    color: var(--ok);
+    background: var(--ok-soft);
+}
+
+.pillWarn {
+    color: var(--warn);
+    background: var(--warn-soft);
+}
+
+.pillInfo {
+    color: var(--info);
+    background: var(--info-soft);
+}
+
+.pillDanger {
+    color: var(--danger);
+    background: var(--danger-soft);
+}
+
+/* ---------- buttons ---------- */
+.primaryBtn,
+.cancelBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 16px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.primaryBtn {
+    color: #fff;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.primaryBtn:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+.cancelBtn {
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+}
+
+.cancelBtn:hover:not(:disabled) {
+    background: var(--card-2);
+}
+
+.primaryBtn:disabled,
+.cancelBtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.wrap :is(button, input, select):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.spin {
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- skeletons ---------- */
+.skelRow {
+    display: grid;
+    grid-template-columns: 1.6fr 0.6fr 1fr 1fr;
+    gap: 14px;
+    padding: 18px;
+}
+
+.skelRow i,
+.skelChart {
+    display: block;
+    height: 16px;
+    background: linear-gradient(90deg, #eef0f6 25%, #f8f9fc 50%, #eef0f6 75%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    animation: shimmer 1.3s infinite;
+}
+
+.skelChart {
+    height: 120px;
+    border-radius: 10px;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- side column ---------- */
+.nextCard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    grid-column: 1 / -1;
+    padding: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, #1c2030 0%, #312e81 100%);
+    border-radius: 16px;
+}
+
+.nextLabel {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #aab0c5;
+}
+
+.nextAmount {
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.nextWhen {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #d6d9e8;
+}
+
+.nextBtn {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 8px 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+}
+
+.nextBtn:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.panel {
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+
+.panel:nth-of-type(3) {
+    grid-column: 1 / -1;
+}
+
+.panelTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.bankRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.bankRow div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bankRow span:not([class]) {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.bankMeta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.bankMeta dt {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.bankMeta dd {
+    margin: 2px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 150px;
+    padding-bottom: 2px;
+}
+
+.barCol {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    height: 100%;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: 0;
+}
+
+.bar {
+    display: block;
+    width: 100%;
+    max-width: 34px;
+    min-height: 6px;
+    border-radius: 6px 6px 3px 3px;
+    transition: opacity 0.15s ease;
+}
+
+.barCol:hover .bar {
+    opacity: 0.75;
+}
+
+.bar_settled {
+    background: var(--ok);
+}
+
+.bar_processing {
+    background: var(--info);
+}
+
+.bar_scheduled {
+    background: var(--warn);
+}
+
+.bar_hold {
+    background: var(--danger);
+}
+
+.barLabel {
+    font-size: 10.5px;
+    color: var(--muted);
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 12px;
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dotOk {
+    background: var(--ok);
+}
+
+.dotInfo {
+    background: var(--info);
+}
+
+.dotWarn {
+    background: var(--warn);
+}
+
+.dotDanger {
+    background: var(--danger);
+}
+
+.infoBox {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #3730a3;
+    background: #f5f6ff;
+    border: 1px dashed #c7cbf5;
+    border-radius: 14px;
+}
+
+.infoBox svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.infoBox p {
+    margin: 0;
+}
+
+/* ---------- drawer ---------- */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(20, 24, 40, 0.55);
+    animation: fade 0.2s ease;
+}
+
+.drawer {
+    display: flex;
+    flex-direction: column;
+    width: min(560px, 100%);
+    height: 100%;
+    color: var(--text);
+    background: #fff;
+    box-shadow: -24px 0 70px rgba(0, 0, 0, 0.25);
+    animation: slideIn 0.25s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+}
+
+.drawerHead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.drawerIdRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.drawerHead h3 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.drawerHead p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.closeBtn {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.closeBtn:hover {
+    color: var(--text);
+    background: var(--card-2);
+}
+
+.drawerBody {
+    flex: 1;
+    min-height: 0;
+    padding: 20px 22px;
+    overflow-y: auto;
+}
+
+.drawerFoot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 14px 22px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+}
+
+.netCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+    padding: 16px 18px;
+    background: #f5f6ff;
+    border: 1px dashed #c7cbf5;
+    border-radius: 14px;
+}
+
+.netCard span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.netCard strong {
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--primary);
+}
+
+.netCard small {
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
+.holdBox {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    color: #991b1b;
+    background: var(--danger-soft);
+    border-radius: 12px;
+}
+
+.holdBox svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.holdBox strong {
+    font-size: 13px;
+}
+
+.holdBox p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.section h4 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.sectionHint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.breakdown {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.breakdown li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+.breakdown li+li {
+    border-top: 1px solid var(--line);
+}
+
+.bLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.bLabel small {
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.plus {
+    font-weight: 600;
+    color: var(--ok);
+}
+
+.minus {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.bTotal {
+    background: var(--card-2);
+    border-radius: 0 0 12px 12px;
+}
+
+.bTotal strong {
+    color: var(--primary);
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0;
+    padding: 14px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.detailsWide {
+    grid-column: 1 / -1;
+}
+
+.details dt {
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.details dd {
+    margin: 3px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.utrRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.utrRow code {
+    min-width: 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.miniBtn {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    color: var(--text);
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.miniBtn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.orderList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.orderList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+}
+
+.orderList li+li {
+    border-top: 1px solid var(--line);
+}
+
+.orderMain,
+.orderAmt {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.orderMain strong {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.orderMain span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.orderAmt {
+    align-items: flex-end;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- big desktop: side column appears ---------- */
+@media (min-width: 1200px) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr) 340px;
+    }
+
+    .side {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nextCard,
+    .panel:nth-of-type(3),
+    .infoBox {
+        grid-column: auto;
+    }
+}
+
+@media (min-width: 1600px) {
+    .wrap {
+        max-width: 1680px;
+        padding: 28px 32px 56px;
+    }
+
+    .layout {
+        grid-template-columns: minmax(0, 1fr) 380px;
+        gap: 24px;
+    }
+
+    .row,
+    .listHeader {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .row {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .statValue {
+        font-size: 24px;
+    }
+}
+
+/* ---------- tablet ---------- */
+@media (max-width: 1099px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ---------- list rows become cards ---------- */
+@media (max-width: 899px) {
+    .listHeader {
+        display: none;
+    }
+
+    .row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas:
+            'id status'
+            'orders gross'
+            'ded net'
+            'date date';
+        gap: 10px 14px;
+        padding: 14px 16px;
+    }
+
+    .cId {
+        grid-area: id;
+    }
+
+    .cStatus {
+        grid-area: status;
+        justify-self: end;
+    }
+
+    .cOrders {
+        grid-area: orders;
+    }
+
+    .cGross {
+        grid-area: gross;
+    }
+
+    .cDed {
+        grid-area: ded;
+    }
+
+    .cNet {
+        grid-area: net;
+    }
+
+    .cDate {
+        grid-area: date;
+    }
+
+    .cGo {
+        display: none;
+    }
+
+    .cell {
+        text-align: left;
+    }
+
+    .cGross,
+    .cNet {
+        text-align: right;
+    }
+
+    .cell::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 2px;
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--muted);
+    }
+
+    .cDate {
+        padding-top: 8px;
+        font-size: 13px;
+        border-top: 1px dashed var(--line);
+    }
+
+    .cDate::before {
+        display: inline;
+        margin: 0 6px 0 0;
+    }
+
+    .skelRow {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 640px) {
+    .wrap {
+        padding: 16px 12px 32px;
+    }
+
+    .pageTitle {
+        font-size: 21px;
+    }
+
+    .topActions {
+        width: 100%;
+    }
+
+    .topActions .primaryBtn,
+    .topActions .cancelBtn {
+        flex: 1;
+    }
+
+    .stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .search {
+        max-width: none;
+    }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filters .select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .side {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .drawerHead,
+    .drawerBody,
+    .drawerFoot {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .drawerFoot>* {
+        flex: 1;
+    }
+
+    /* 16px prevents iOS zoom on focus */
+    .searchInput,
+    .select {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .wrap *,
+    .wrap *::before,
+    .wrap *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}

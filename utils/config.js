@@ -30,6 +30,7 @@ export default {
     WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'wss://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app/ws',
     SERVER_URL: 'https://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app',
     NEXT_PUBLIC_SITE_URL: 'http://localhost:8000',
+    NEXT_SERVER_URL: 'https://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app',
     client_url: process.env.NEXT_PUBLIC_CLIENT_URL || 'https://uniyel.com',
     demo: process.env.NEXT_PUBLIC_DEMO === '1',
     android_link: 'https://play.google.com/store/apps/details?id=com.inrloverinfra.zailio',

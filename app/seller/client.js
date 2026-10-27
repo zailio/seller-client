@@ -6,20 +6,21 @@ import FullPageLoading from '../../components/FullPageLoading';
 
 import Head from 'next/head';
 import styles from './main.module.css';
-import { FaSolarPanel, FaFirstOrder, FaBox, FaRegMoneyBillAlt } from "react-icons/fa";
-import { MdDashboard, MdMenu, MdOutlineInventory2 } from "react-icons/md";
+import { FaSolarPanel, FaFirstOrder, FaBox, FaRegMoneyBillAlt, FaCalendarCheck } from "react-icons/fa";
+import { MdDashboard, MdMenu, MdOutlineInventory2, MdFreeCancellation, MdOutlineSupportAgent } from "react-icons/md";
 import { CiUser } from "react-icons/ci";
 import { AiFillProduct } from "react-icons/ai";
 import { IoChatbubbleEllipsesOutline, IoClose, IoAdd, IoLogoStackoverflow } from "react-icons/io5";
 import { IoIosPricetags } from "react-icons/io";
 import { BsGraphUp } from "react-icons/bs";
-import { FaShop } from "react-icons/fa6";
+import { FaShop, FaMoneyBills } from "react-icons/fa6";
 import { FiLayout } from "react-icons/fi";
 
 import { useStore } from '../../context/store';
 import { useSearchParams, useRouter } from "next/navigation";
 
 import Dashboard from './components/dashbord';
+import Settlements from './settlements/main';
 import DeliveryWarehousePage from './components/delivery';
 import ProductManagement from './components/manage';
 import InventorySellerPage from './inventory/main';
@@ -30,9 +31,12 @@ import ChatInterface from './components/chat';
 import ProductAnalytics from './components/analytics';
 import Uploadproduct from './upload/main';
 import SellerBusinessLocations from './components/shop';
+import AbandonedCartsPage from './abandoned/main';
 import OrderManagement from './order/main';
+import PreorderModal from './preorder/main';
 import EstimatedProduct from './components/estimation';
 import StorefrontStudio from './storefront/Studio';
+import SupportCenter from './support/main';
 
 import Messages from '../../components/messages';
 import Alert from '../../components/alert';
@@ -78,6 +82,10 @@ const SellerDashbord = ({ result }) => {
     // sales
     const [sales, setSales] = useState([]);
 
+    // preorder
+    const [preOrderProducts, setPreOrderProducts] = useState([]);
+    const [preorders, setPreorders] = useState([]); // rows from the pre-order details API
+
     // manage
     const [initialProducts, setInitialProducts] = useState(false);
     const [totalPages, setTotalPages] = useState({
@@ -89,6 +97,8 @@ const SellerDashbord = ({ result }) => {
 
     // order
     const [orderOverall, setOrderOverall] = useState(false);
+    // abendoned cart
+    const [ABcarts, setABCarts] = useState([]);
 
     // store
     const [store, setStore] = useState(result?.data?.store || false);
@@ -271,60 +281,91 @@ const SellerDashbord = ({ result }) => {
                                 <div className={styles.sidebar_menu}>
                                     <ul>
                                         <li className={shift === 1 ? styles.active : ''} onClick={() => runShift(1)}>
-                                            <MdDashboard size={22} />
+                                            <MdDashboard size={22} color="#3B82F6" />
                                             Dashboard
                                         </li>
                                         <li className={shift === 2 ? styles.active : ''} onClick={() => runShift(2)}>
-                                            <FaBox size={22} />
-                                            Delivery Partner
+                                            <FaMoneyBills size={22} color="#EC4899" />
+                                            Settlements
                                         </li>
                                         <li className={shift === 3 ? styles.active : ''} onClick={() => runShift(3)}>
-                                            <IoAdd size={22} />
+                                            <FaBox size={22} color="#8B5CF6" />
+                                            Delivery Partner
+                                        </li>
+
+                                        <li className={shift === 4 ? styles.active : ''} onClick={() => runShift(4)}>
+                                            <IoAdd size={22} color="#10B981" />
                                             Upload | Update
                                         </li>
-                                        <li className={shift === 4 ? styles.active : ''} onClick={() => runShift(4)}>
-                                            <MdOutlineInventory2 size={22} />
+
+                                        <li className={shift === 5 ? styles.active : ''} onClick={() => runShift(5)}>
+                                            <MdOutlineInventory2 size={22} color="#F59E0B" />
                                             Inventory
                                         </li>
-                                        <li className={shift === 5 ? styles.active : ''} onClick={() => runShift(5)}>
-                                            <FaRegMoneyBillAlt size={22} />
+
+                                        <li className={shift === 6 ? styles.active : ''} onClick={() => runShift(6)}>
+                                            <FaRegMoneyBillAlt size={22} color="#16A34A" />
                                             Sales
                                         </li>
-                                        <li className={shift === 6 ? styles.active : ''} onClick={() => runShift(6)}>
-                                            <AiFillProduct size={22} />
+
+                                        <li className={shift === 7 ? styles.active : ''} onClick={() => runShift(7)}>
+                                            <AiFillProduct size={22} color="#EC4899" />
                                             Manage Products
                                         </li>
-                                        <li className={shift === 7 ? styles.active : ''} onClick={() => runShift(7)}>
-                                            <IoIosPricetags size={22} />
+
+                                        <li className={shift === 8 ? styles.active : ''} onClick={() => runShift(8)}>
+                                            <IoIosPricetags size={22} color="#D946EF" />
                                             Coupons
                                         </li>
-                                        <li className={shift === 8 ? styles.active : ''} onClick={() => runShift(8)}>
-                                            <FaFirstOrder size={22} />
+
+                                        <li className={shift === 9 ? styles.active : ''} onClick={() => runShift(9)}>
+                                            <MdFreeCancellation size={22} color="#EF4444" />
+                                            Abandoned Order
+                                        </li>
+
+                                        <li className={shift === 10 ? styles.active : ''} onClick={() => runShift(10)}>
+                                            <FaFirstOrder size={22} color="#0EA5E9" />
                                             Orders
                                         </li>
-                                        <li className={shift === 9 ? styles.active : ''} onClick={() => runShift(9)}>
-                                            <IoLogoStackoverflow size={22} />
+
+                                        <li className={shift === 11 ? styles.active : ''} onClick={() => runShift(11)}>
+                                            <FaCalendarCheck size={22} color="#14B8A6" />
+                                            Pre Orders
+                                        </li>
+
+                                        <li className={shift === 12 ? styles.active : ''} onClick={() => runShift(12)}>
+                                            <IoLogoStackoverflow size={22} color="#F97316" />
                                             Estimated Profit
                                         </li>
-                                        <li className={shift === 10 ? styles.active : ''} onClick={() => runShift(10)}>
-                                            <IoChatbubbleEllipsesOutline size={22} />
+
+                                        <li className={shift === 13 ? styles.active : ''} onClick={() => runShift(13)}>
+                                            <IoChatbubbleEllipsesOutline size={22} color="#6366F1" />
                                             Chats
                                         </li>
-                                        <li className={shift === 11 ? styles.active : ''} onClick={() => runShift(11)}>
-                                            <FaShop size={22} />
+
+                                        <li className={shift === 14 ? styles.active : ''} onClick={() => runShift(14)}>
+                                            <FaShop size={22} color="#A16207" />
                                             Shop
                                         </li>
-                                        <li className={shift === 14 ? styles.active : ''} onClick={() => runShift(14)}>
-                                            <FiLayout size={22} />
+
+                                        <li className={shift === 15 ? styles.active : ''} onClick={() => runShift(15)}>
+                                            <FiLayout size={22} color="#64748B" />
                                             Storefront Studio
                                         </li>
-                                        <li className={shift === 12 ? styles.active : ''} onClick={() => runShift(12)}>
-                                            <BsGraphUp size={22} />
+
+                                        <li className={shift === 16 ? styles.active : ''} onClick={() => runShift(16)}>
+                                            <BsGraphUp size={22} color="#059669" />
                                             Analytics
                                         </li>
-                                        <li className={shift === 13 ? styles.active : ''} onClick={() => runShift(13)}>
-                                            <CiUser size={22} />
+
+                                        <li className={shift === 17 ? styles.active : ''} onClick={() => runShift(17)}>
+                                            <CiUser size={22} color="#DB2777" />
                                             Seller Profile
+                                        </li>
+
+                                        <li className={shift === 18 ? styles.active : ''} onClick={() => runShift(18)}>
+                                            <MdOutlineSupportAgent size={22} color="#0284C7" />
+                                            Support Agent
                                         </li>
                                     </ul>
                                 </div>
@@ -363,7 +404,7 @@ const SellerDashbord = ({ result }) => {
                                             setSellerInfo={setSellerInfo}
                                         />
                                     ) : shift === 2 ? (
-                                        <DeliveryWarehousePage
+                                        <Settlements
                                             addNotification={addNotification}
                                             auth={result.auth}
                                             session={session}
@@ -371,6 +412,14 @@ const SellerDashbord = ({ result }) => {
                                             setWareHouse={setWareHouse}
                                         />
                                     ) : shift === 3 ? (
+                                        <DeliveryWarehousePage
+                                            addNotification={addNotification}
+                                            auth={result.auth}
+                                            session={session}
+                                            warehouse={warehouse}
+                                            setWareHouse={setWareHouse}
+                                        />
+                                    ) : shift === 4 ? (
                                         <Uploadproduct
                                             auth={result.auth}
                                             session={session}
@@ -379,7 +428,7 @@ const SellerDashbord = ({ result }) => {
                                             setFullPageLoading={setFullPageLoading}
                                             warehouse={warehouse}
                                         />
-                                    ) : shift === 4 ? (
+                                    ) : shift === 5 ? (
                                         <InventorySellerPage
                                             auth={result.auth}
                                             session={session}
@@ -387,7 +436,7 @@ const SellerDashbord = ({ result }) => {
                                             inventory={inventory}
                                             setInventory={setInventory}
                                         />
-                                    ) : shift === 5 ? (
+                                    ) : shift === 6 ? (
                                         <SalesManage
                                             auth={result.auth}
                                             session={session}
@@ -395,7 +444,7 @@ const SellerDashbord = ({ result }) => {
                                             sales={sales}
                                             setSales={setSales}
                                         />
-                                    ) : shift === 6 ? (
+                                    ) : shift === 7 ? (
                                         <ProductManagement
                                             auth={result.auth}
                                             session={session}
@@ -407,7 +456,7 @@ const SellerDashbord = ({ result }) => {
                                             paginatedProducts={paginatedProducts}
                                             setPaginatedProducts={setPaginatedProducts}
                                         />
-                                    ) : shift === 7 ? (
+                                    ) : shift === 8 ? (
                                         <CouponManage
                                             auth={result.auth}
                                             session={session}
@@ -415,7 +464,15 @@ const SellerDashbord = ({ result }) => {
                                             coupons={coupons}
                                             setCoupons={setCoupons}
                                         />
-                                    ) : shift === 8 ? (
+                                    ) : shift === 9 ? (
+                                        <AbandonedCartsPage
+                                            addNotification={addNotification}
+                                            auth={result.auth}
+                                            session={session}
+                                            carts={ABcarts}
+                                            setCarts={setABCarts}
+                                        />
+                                    ) : shift === 10 ? (
                                         <OrderManagement
                                             addNotification={addNotification}
                                             auth={result.auth}
@@ -424,14 +481,24 @@ const SellerDashbord = ({ result }) => {
                                             setOverall={setOrderOverall}
                                             warehouse={warehouse}
                                         />
-                                    ) : shift === 9 ? (
+                                    ) : shift === 11 ? (
+                                        <PreorderModal
+                                            addNotification={addNotification}
+                                            auth={result.auth}
+                                            session={session}
+                                            products={preOrderProducts}
+                                            setProducts={setPreOrderProducts}
+                                            preorders={preorders}
+                                            setPreorders={setPreorders}
+                                        />
+                                    ) : shift === 12 ? (
                                         <EstimatedProduct
                                             addNotification={addNotification}
                                             auth={result.auth}
                                             session={session}
                                             setFullPageLoading={setFullPageLoading}
                                         />
-                                    ) : shift === 10 ? (
+                                    ) : shift === 13 ? (
                                         <ChatInterface
                                             auth={result.auth}
                                             session={session}
@@ -447,7 +514,7 @@ const SellerDashbord = ({ result }) => {
                                             onUpdate={onUpdate}
                                             setUpdate={setUpdate}
                                         />
-                                    ) : shift === 11 ? (
+                                    ) : shift === 14 ? (
                                         <SellerBusinessLocations
                                             auth={result.auth}
                                             session={session}
@@ -457,20 +524,29 @@ const SellerDashbord = ({ result }) => {
                                             setStore={setStore}
                                             setFullPageLoading={setFullPageLoading}
                                         />
-                                    ) : shift === 14 ? (
+                                    ) : shift === 15 ? (
                                         <StorefrontStudio
                                             auth={result.auth}
                                             session={session}
                                             store={store}
                                             addNotification={addNotification}
                                         />
-                                    ) : shift === 12 ? (
+                                    ) : shift === 16 ? (
                                         <ProductAnalytics
                                             auth={result.auth}
                                             session={session}
                                         />
-                                    ) : (
+                                    ) : shift === 17 ? (
                                         <SellerProfileEdit
+                                            auth={result.auth}
+                                            session={session}
+                                            addNotification={addNotification}
+                                            genAlert={genAlert}
+                                            formData={formData}
+                                            setFormData={setFormData}
+                                        />
+                                    ) : (
+                                        <SupportCenter
                                             auth={result.auth}
                                             session={session}
                                             addNotification={addNotification}
