@@ -1,0 +1,130 @@
+/* Sales page specifics on top of ../business/ui.module.css */
+
+.salesTable th,
+.salesTable td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Order ID stays visible while the wide breakdown scrolls sideways */
+.stickyCol {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #fff;
+    box-shadow: 1px 0 0 #e5e7eb;
+}
+
+thead .stickyCol {
+    z-index: 3;
+    background: #f9fafb;
+}
+
+.salesTable tbody tr:hover .stickyCol {
+    background: #fafbff;
+}
+
+.profitCell {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.25;
+}
+
+.profitTag {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #b45309;
+}
+
+.profitTag[data-tone='neutral'] {
+    color: #9ca3af;
+}
+
+.inlineStatus {
+    font-weight: 600;
+}
+
+.inlineStatus[data-tone='success'] {
+    color: #15803d;
+}
+
+.inlineStatus[data-tone='danger'] {
+    color: #b91c1c;
+}
+
+.inlineStatus[data-tone='warning'] {
+    color: #b45309;
+}
+
+.inlineStatus[data-tone='info'] {
+    color: #1d4ed8;
+}
+
+.viewToggle {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.viewToggle button {
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #6b7280;
+    font-size: 12.5px;
+    font-weight: 560;
+    cursor: pointer;
+}
+
+.viewToggle .viewActive {
+    background: #fff;
+    color: #1f2328;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 18px;
+    border-left: 2px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timeline li {
+    position: relative;
+}
+
+.timeline li::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #d1d5db;
+}
+
+.timeline li[data-status='completed']::before {
+    background: #15803d;
+    border-color: #15803d;
+}
+
+.timeline li[data-status='active']::before {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.timelineTitle {
+    display: block;
+    font-weight: 600;
+    font-size: 13.5px;
+}

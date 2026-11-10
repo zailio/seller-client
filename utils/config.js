@@ -28,7 +28,7 @@ export default {
     },
     google_client_id: '1056886157027-1rtdbomgd8nsjk96p9rsl447ibo3mmpu.apps.googleusercontent.com',
     WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'wss://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app/ws',
-    SERVER_URL: 'https://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app',
+    SERVER_URL: 'http://localhost:8000',
     NEXT_PUBLIC_SITE_URL: 'http://localhost:8000',
     NEXT_SERVER_URL: 'https://theoretical-calypso-inrl-bot-68dd3a69.koyeb.app',
     client_url: process.env.NEXT_PUBLIC_CLIENT_URL || 'https://uniyel.com',

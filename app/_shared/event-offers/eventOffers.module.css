@@ -1,0 +1,121 @@
+.row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-wrap: wrap;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row[data-joined='true'] {
+    background: #fbfdff;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.icon[data-type='birthday'] {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+.info {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.name {
+    color: #1f2328;
+    font-size: 14.5px;
+}
+
+.by {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+.percent {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.percent input {
+    width: 72px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.track {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    transition: background 0.15s;
+}
+
+.thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+    transition: transform 0.15s;
+}
+
+.switch input:checked + .track {
+    background: #16a34a;
+}
+
+.switch input:checked + .track .thumb {
+    transform: translateX(18px);
+}
+
+.switch input:focus-visible + .track {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+.switch input:disabled + .track {
+    opacity: 0.6;
+}
+
+.switchText {
+    min-width: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}

@@ -1,7 +1,7 @@
 // Main ProductUploadPage.jsx (refactored with imports)
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import styles from './css/main.module.css';
 import config from '../../../utils/config';
 import { useWebSocket } from '../../../context/ws';
@@ -74,6 +74,52 @@ const MAX_COLORS = 3;
 const MAX_SIZE_LENGTH = 20;
 const MAX_VARIANTS = 30;
 
+const isHosted = (src) => typeof src === 'string' && /^https?:\/\//.test(src);
+
+// Fresh initial form every time (used for first render and for the reset after upload).
+// `size` is a free-text field (max 20 chars) — one size per product upload,
+// e.g. "Free Size", "Medium", "M", "42". Different sizes/colors of the
+// same item are separate uploads, linked via `variantsIds`.
+const getInitialForm = () => ({
+    image: [],
+    have_BA: false,        // true = this product has before & after images
+    before_img: '',        // single image (local data URL until uploaded, then hosted URL)
+    after_img: '',
+    allow_affiliation: false,
+    allow_event_offer: false, // product joins the seller's event offers (birthday / festivals)
+    title: '',
+    sku: '',
+    subtitle: '',
+    description: '',
+    price: '',
+    discount: '',
+    cost: '',
+    size: 'Free Size',
+    color: [], // up to MAX_COLORS hex strings — this upload's color composition
+    delivery_type: 'standard',
+    gender: '',
+    weight: '',
+    quantity: '',
+    shipment_width: '',
+    shipment_height: '',
+    shipment_length: '',
+    affiliate_commission: '',
+    product_condition: 'new',
+    warranty_type: 'no_warranty',
+    warranty_period: '',
+    packaging_type: 'standard',
+    s_p: false,
+    battery_required: false,
+    dangerous_goods: false,
+    fragile_item: false,
+    liquid_item: false,
+    care_instructions: '',
+    country_of_origin: 'India',
+    hs_code: '',
+    battery_type: '',
+    assembly_required: false,
+});
+
 // Move the item at `from` to index `to`. Always returns a NEW array (never mutates).
 const reorderArray = (arr, from, to) => {
     if (!Array.isArray(arr)) return arr;
@@ -91,13 +137,19 @@ export default function ProductUploadPage({
     addNotification,
     setFullPageLoading,
     warehouse,
-    genAlert
+    genAlert,
+    initialSku = '',
+    onInitialSkuUsed,
 }) {
     const { socket, send } = useWebSocket();
 
 
     const [selectedWareHouse, setSelectedWareHouse] = useState('');
-    const [skuSearch, setSkuSearch] = useState('');
+    const [skuSearch, setSkuSearch] = useState(initialSku || '');
+    // Role-specific brand rules come from the server (/seller/upload/context):
+    // seller → Generic (no brand), brand → its own brand, distributor → an approved brand.
+    const [brandContext, setBrandContext] = useState(null);
+    const [selectedBrandId, setSelectedBrandId] = useState('');
     const [loadedSku, setLoadedSku] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [onUpload, setOnUpload] = useState(false);
@@ -119,6 +171,10 @@ export default function ProductUploadPage({
     // product attachment (different-product cross-sell, unrelated to size/color)
     const [linkedProducts, setLinkedProducts] = useState([]);
 
+    // ---- before / after upload in progress (Extras tab) ----
+    // Whether the product HAS before/after images lives in formData.have_BA
+    const [baUploading, setBaUploading] = useState(false);
+
     // ---- variants (same item, other size/color — linked via signed variant_id tokens) ----
     // Each entry is a signed variant_id token minted server-side by
     // /seller/upload/similar-sub-category, tying it to (sub_category, product_id).
@@ -127,43 +183,10 @@ export default function ProductUploadPage({
     const [variantsIds, setVariantsIds] = useState([]);
 
     // Consolidated Form State including new rules
-    // `size` is a free-text field (max 20 chars) — one size per product upload,
-    // e.g. "Free Size", "Medium", "M", "42". Different sizes/colors of the
-    // same item are separate uploads, linked via `variantsIds`.
-    const [formData, setFormData] = useState({
-        image: [],
-        title: '',
-        sku: '',
-        subtitle: '',
-        description: '',
-        price: '',
-        discount: '',
-        cost: '',
-        size: 'Free Size',
-        color: [], // up to MAX_COLORS hex strings — this upload's color composition
-        delivery_type: 'standard',
-        gender: '',
-        weight: '',
-        quantity: '',
-        shipment_width: '',
-        shipment_height: '',
-        shipment_length: '',
-        affiliate_commission: '',
-        product_condition: 'new',
-        warranty_type: 'no_warranty',
-        warranty_period: '',
-        packaging_type: 'standard',
-        s_p: false,
-        battery_required: false,
-        dangerous_goods: false,
-        fragile_item: false,
-        liquid_item: false,
-        care_instructions: '',
-        country_of_origin: 'India',
-        hs_code: '',
-        battery_type: '',
-        assembly_required: false,
-    });
+    const [formData, setFormData] = useState(getInitialForm);
+
+    // Both before & after are hosted URLs -> nothing left to upload
+    const baUploaded = isHosted(formData.before_img) && isHosted(formData.after_img);
 
     // WebSocket Logic
     useEffect(() => {
@@ -234,7 +257,7 @@ export default function ProductUploadPage({
         }));
     }, [comboOffers]);
 
-    // Handle Input
+    // Handle Input (also handles the `allow_affiliation` switch and `have_BA` — checkboxes with those ids)
     const handleInputChange = useCallback((e) => {
         const { id, type, checked, value } = e.target;
         if (id === 'sku') {
@@ -269,6 +292,64 @@ export default function ProductUploadPage({
     const onSizeChange = useCallback((value) => {
         setFormData(prev => ({ ...prev, size: (value || '').slice(0, MAX_SIZE_LENGTH) }));
     }, []);
+
+    // Uploads ONE local (data URL) image to the server.
+    // Already-hosted images are returned untouched. Never rejects: resolves {url, ok}.
+    const uploadDataUrl = useCallback((src, tag, label) => new Promise((resolve) => {
+        if (typeof src !== 'string' || !src.startsWith('data:')) {
+            return resolve({ url: src, ok: true });
+        }
+
+        const fail = (h2, desc) => {
+            addNotification({ h2, desc, tag });
+            resolve({ url: src, ok: false });
+        };
+
+        fetch(src)
+            .then(res => res.blob())
+            .then(blob => {
+                const uploadForm = new FormData();
+                uploadForm.append('formatImg', 'jpg');
+                uploadForm.append('file', blob, 'upload.png');
+
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        let percent = (event.loaded / event.total) * 100;
+                        if (percent > 99) percent = 99;
+                        addNotification({
+                            h2: 'Uploading...',
+                            desc: `${label} - ${percent.toFixed(2)}%`,
+                            tag,
+                        });
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status !== 200) return fail('Error!', `${label} upload failed.`);
+                    try {
+                        const res = JSON.parse(xhr.responseText);
+                        if (!res.url) return fail('Error!', `${label} upload failed.`);
+                        addNotification({
+                            h2: 'Uploaded!',
+                            desc: `${label} uploaded successfully.`,
+                            tag,
+                        });
+                        resolve({ url: res.url, ok: true });
+                    } catch (_) {
+                        fail('Error!', `${label} upload failed.`);
+                    }
+                };
+
+                xhr.onerror = () => fail('Network Error!', `${label} failed.`);
+
+                xhr.open('POST', `${config.SERVER_URL}/api/get_url`);
+                xhr.setRequestHeader('Authorization', `Bearer ${auth}`);
+                xhr.send(uploadForm);
+            })
+            .catch(() => fail('Fetch Error!', `${label} fetch failed.`));
+    }), [auth, addNotification]);
 
     // ---- Image handlers ----
     const handleImageUpload = useCallback((e) => {
@@ -316,72 +397,58 @@ export default function ProductUploadPage({
         const total = originals.length;
         setImgDon('on');
 
-        const uploadOne = (src, i) => new Promise((resolve) => {
-            // already hosted -> nothing to upload
-            if (typeof src !== 'string' || !src.startsWith('data:')) {
-                return resolve({ url: src, ok: true });
-            }
-
-            const tag = `uploading_${i}`;
-            const fail = (h2, desc) => {
-                addNotification({ h2, desc, tag });
-                resolve({ url: src, ok: false });
-            };
-
-            fetch(src)
-                .then(res => res.blob())
-                .then(blob => {
-                    const uploadForm = new FormData();
-                    uploadForm.append('formatImg', 'jpg');
-                    uploadForm.append('file', blob, 'upload.png');
-
-                    const xhr = new XMLHttpRequest();
-
-                    xhr.upload.onprogress = (event) => {
-                        if (event.lengthComputable) {
-                            let percent = (event.loaded / event.total) * 100;
-                            if (percent > 99) percent = 99;
-                            addNotification({
-                                h2: 'Uploading...',
-                                desc: `Uploading ${i + 1}/${total} - ${percent.toFixed(2)}%`,
-                                tag,
-                            });
-                        }
-                    };
-
-                    xhr.onload = () => {
-                        if (xhr.status !== 200) return fail('Error!', `Image ${i + 1} upload failed.`);
-                        try {
-                            const res = JSON.parse(xhr.responseText);
-                            if (!res.url) return fail('Error!', `Image ${i + 1} upload failed.`);
-                            addNotification({
-                                h2: 'Uploaded!',
-                                desc: `Image ${i + 1} uploaded successfully.`,
-                                tag,
-                            });
-                            resolve({ url: res.url, ok: true });
-                        } catch (_) {
-                            fail('Error!', `Image ${i + 1} upload failed.`);
-                        }
-                    };
-
-                    xhr.onerror = () => fail('Network Error!', `Image ${i + 1} failed.`);
-
-                    xhr.open('POST', `${config.SERVER_URL}/api/get_url`);
-                    xhr.setRequestHeader('Authorization', `Bearer ${auth}`);
-                    xhr.send(uploadForm);
-                })
-                .catch(() => fail('Fetch Error!', `Image fetch failed.`));
-        });
-
         // Promise.all keeps results in the same order as `originals`
-        const results = await Promise.all(originals.map(uploadOne));
+        const results = await Promise.all(
+            originals.map((src, i) => uploadDataUrl(src, `uploading_${i}`, `Image ${i + 1}/${total}`))
+        );
         const allOk = results.every(r => r.ok);
 
         setFormData(prev => ({ ...prev, image: results.map(r => r.url) }));
         // true only when every image is hosted; otherwise let the seller retry
         setImgDon(allOk ? true : false);
-    }, [formData.image, auth, addNotification]);
+    }, [formData.image, uploadDataUrl]);
+
+    // ---- Before / After handlers ----
+    const onBeforeAfterSelect = useCallback((kind, e) => {
+        if (baUploading) return;
+        const file = e.target.files && e.target.files[0];
+        e.target.value = ''; // allow picking the same file again later
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            return addNotification({ h2: 'Invalid file', desc: 'Please choose an image file.', tag: 'error' });
+        }
+        const key = kind === 'before' ? 'before_img' : 'after_img';
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            setFormData(prev => ({ ...prev, [key]: ev.target.result }));
+        };
+        reader.readAsDataURL(file);
+    }, [baUploading, addNotification]);
+
+    const onBeforeAfterRemove = useCallback((kind) => {
+        if (baUploading) return;
+        const key = kind === 'before' ? 'before_img' : 'after_img';
+        setFormData(prev => ({ ...prev, [key]: '' }));
+    }, [baUploading]);
+
+    // Submit for the before/after pair: uploads both in parallel.
+    // Failed ones stay local so the seller can press the button again.
+    const uploadBeforeAfter = useCallback(async () => {
+        if (baUploading) return;
+        if (!formData.before_img || !formData.after_img) {
+            return addNotification({ h2: 'Before/After!', desc: 'Please add both the before and after image.', tag: 'error' });
+        }
+        setBaUploading(true);
+        const [before, after] = await Promise.all([
+            uploadDataUrl(formData.before_img, 'uploading_before', 'Before image'),
+            uploadDataUrl(formData.after_img, 'uploading_after', 'After image'),
+        ]);
+        setFormData(prev => ({ ...prev, before_img: before.url, after_img: after.url }));
+        setBaUploading(false);
+        if (before.ok && after.ok) {
+            addNotification({ h2: 'Uploaded!', desc: 'Before & After images are ready.', tag: 'done' });
+        }
+    }, [baUploading, formData.before_img, formData.after_img, uploadDataUrl, addNotification]);
 
     // Point handlers
     const addQuickPoint = useCallback(() => {
@@ -406,10 +473,41 @@ export default function ProductUploadPage({
         send({ path: 'search', event: 'category', data: { text: searchQuery } });
     }, [searchQuery, send]);
 
+    useEffect(() => {
+        let cancelled = false;
+        fetch(config.SERVER_URL + '/seller/upload/context', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth}` },
+            body: JSON.stringify({ session_id: session }),
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                if (cancelled || !json?.data?.status) return;
+                setBrandContext(json.data);
+                if (json.data.brand_mode === 'choose_approved_brand' && json.data.brands?.length === 1) {
+                    setSelectedBrandId(String(json.data.brands[0].id));
+                }
+            })
+            .catch(() => { });
+        return () => { cancelled = true; };
+    }, [auth, session]);
+
+    // Opened from Products → "Edit": load that SKU straight into update mode.
+    const autoLoadedSku = useRef(false);
+    useEffect(() => {
+        if (!initialSku || autoLoadedSku.current) return;
+        autoLoadedSku.current = true;
+        setSkuSearch(initialSku);
+        loadSKUProduct(null, initialSku);
+        if (onInitialSkuUsed) onInitialSkuUsed();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialSku]);
+
     // SKU Load - RESTORED: Exact logic with Server API
-    const loadSKUProduct = async (e) => {
-        e.preventDefault();
-        if (!skuSearch) {
+    const loadSKUProduct = async (e, skuOverride) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const skuQuery = skuOverride || skuSearch;
+        if (!skuQuery) {
             addNotification({
                 h2: 'Need Query!',
                 desc: 'Need SKU value.',
@@ -423,7 +521,7 @@ export default function ProductUploadPage({
                 method: 'POST',
                 body: JSON.stringify({
                     session_id: session,
-                    sku: skuSearch
+                    sku: skuQuery
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -435,9 +533,11 @@ export default function ProductUploadPage({
             if (result.data.status) {
                 addNotification({ h2: 'Product available!', desc: `Product "${result.data.data.title}" found.`, tag: 'done' });
                 const handleConfirm = () => {
+                    // TODO: "add as variant" flow is not implemented yet
                     addNotification({
-                        h2: 'gfg',
-                        desc: 'nigga you aint'
+                        h2: 'Not available',
+                        desc: 'Adding as a variant is not available yet.',
+                        tag: 'info'
                     });
                 }
                 const handleCancel = () => {
@@ -481,6 +581,14 @@ export default function ProductUploadPage({
 
                     // size: free-text, cap at MAX_SIZE_LENGTH just in case
                     json.size = (result.data.data.size || formData.size || 'Free Size').slice(0, MAX_SIZE_LENGTH);
+
+                    // before / after + affiliation: set explicitly so a saved `false`/empty
+                    // value never falls back to stale form state in the merge above
+                    json.before_img = result.data.data.before_img || '';
+                    json.after_img = result.data.data.after_img || '';
+                    json.have_BA = Boolean(json.before_img && json.after_img);
+                    json.allow_affiliation = Boolean(result.data.data.allow_affiliation);
+                    json.allow_event_offer = Boolean(result.data.data.allow_event_offer);
 
                     setFormData(json);
                     setQuickPoints(result.data.data.quick_msg || []);
@@ -533,6 +641,9 @@ export default function ProductUploadPage({
     // Upload Action - RESTORED: Exact logic with validations and API call
     const uploadProduct = async () => {
         if (!selectedWareHouse) return addNotification({ h2: 'Upload!', desc: `Please select a warehouse.`, tag: 'error' });
+        if (!loadedSku && brandContext?.brand_mode === 'choose_approved_brand' && !selectedBrandId) {
+            return addNotification({ h2: 'Brand!', desc: `Choose which of your approved brands this product belongs to.`, tag: 'error' });
+        }
         if (!imgDon || imgDon !== true) return addNotification({ h2: 'Upload!', desc: `Please Upload Images first.`, tag: 'error' });
         if (formData.image.length === 0) return addNotification({ h2: 'Upload!', desc: `Please upload at least one product image`, tag: 'error' });
         if (!formData.color.length) return addNotification({ h2: 'Color!', desc: `Please select at least one color for this product.`, tag: 'error' });
@@ -543,6 +654,16 @@ export default function ProductUploadPage({
         if (parseFloat(formData.discount) > parseFloat(formData.price)) return addNotification({ h2: 'Price!', desc: `Discount price cannot be greater than MRP`, tag: 'error' });
         if (!formData.quantity || parseInt(formData.quantity) <= 0) return addNotification({ h2: 'Quantity!', desc: `Please enter a valid quantity`, tag: 'error' });
         if (variantsIds.length > MAX_VARIANTS) return addNotification({ h2: 'Variants!', desc: `A product can link up to ${MAX_VARIANTS} variants.`, tag: 'error' });
+
+        // Before / After (Extras tab): when have_BA is true both images must exist and be uploaded
+        if (formData.have_BA) {
+            if (!formData.before_img || !formData.after_img) {
+                return addNotification({ h2: 'Before/After!', desc: `Please add both the before and after image.`, tag: 'error' });
+            }
+            if (!baUploaded) {
+                return addNotification({ h2: 'Before/After!', desc: `Please upload the before & after images first.`, tag: 'error' });
+            }
+        }
 
         setOnUpload(true);
 
@@ -560,6 +681,11 @@ export default function ProductUploadPage({
             combo_offers: [...comboOffers],
             color: [...formData.color].slice(0, MAX_COLORS),
             size: formData.size.slice(0, MAX_SIZE_LENGTH),
+            have_BA: Boolean(formData.have_BA),
+            before_img: formData.have_BA ? formData.before_img : '',
+            after_img: formData.have_BA ? formData.after_img : '',
+            allow_affiliation: Boolean(formData.allow_affiliation),
+            allow_event_offer: Boolean(formData.allow_event_offer),
             price: parseFloat(formData.price) || 0,
             discount: parseFloat(formData.discount) || 0,
             weight: parseFloat(formData.weight) || 0,
@@ -576,7 +702,11 @@ export default function ProductUploadPage({
                 body: JSON.stringify({
                     session_id: session,
                     warehouseName: selectedWareHouse,
-                    ...newProduct
+                    ...newProduct,
+                    // Only distributors send a brand; the server decides it for everyone else.
+                    ...(brandContext?.brand_mode === 'choose_approved_brand' && selectedBrandId
+                        ? { brand_id: Number(selectedBrandId) }
+                        : {}),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -592,45 +722,13 @@ export default function ProductUploadPage({
                 setOnUpload(false);
                 setSelectedWareHouse('');
                 // Reset form
-                setFormData({
-                    image: [], // was `img` before, which broke formData.image after a reset
-                    title: '',
-                    sku: '',
-                    subtitle: '',
-                    description: '',
-                    price: '',
-                    discount: '',
-                    cost: '',
-                    size: 'Free Size',
-                    color: [],
-                    delivery_type: 'standard',
-                    gender: '',
-                    weight: '',
-                    quantity: '',
-                    shipment_width: '',
-                    shipment_height: '',
-                    shipment_length: '',
-                    affiliate_commission: '',
-                    product_condition: 'new',
-                    warranty_type: 'no_warranty',
-                    warranty_period: '',
-                    packaging_type: 'standard',
-                    s_p: false,
-                    battery_required: false,
-                    dangerous_goods: false,
-                    fragile_item: false,
-                    liquid_item: false,
-                    care_instructions: '',
-                    country_of_origin: 'India',
-                    hs_code: '',
-                    battery_type: '',
-                    assembly_required: false,
-                });
+                setFormData(getInitialForm());
                 setQuickPoints([]);
                 setComboOffers([]);
                 setSelectedHighlight([]);
                 setAttachments([]);
                 setVariantsIds([]);
+                setBaUploading(false);
                 setImgDon(false);
                 setLoadedSku(false);
                 setId(null);
@@ -653,6 +751,30 @@ export default function ProductUploadPage({
                     {loadedSku ? <MdClose size={20} onClick={() => setLoadedSku(false)} /> : <FaSearch size={20} onClick={loadSKUProduct} />}
                 </form>
             </div>
+
+            {brandContext && !loadedSku && (
+                <div className={styles.brandBanner} data-mode={brandContext.brand_mode}>
+                    {brandContext.brand_mode === 'generic' && (
+                        <p><strong>Generic product.</strong> Seller uploads are listed without a brand, so there is nothing to choose here.</p>
+                    )}
+                    {brandContext.brand_mode === 'own_brand' && (
+                        <p><strong>Listed under your brand:</strong> {brandContext.brand?.name}</p>
+                    )}
+                    {brandContext.brand_mode === 'choose_approved_brand' && (
+                        brandContext.brands?.length ? (
+                            <label className={styles.brandPicker}>
+                                <span><strong>Brand</strong> — only brands that approved you are listed</span>
+                                <select value={selectedBrandId} onChange={(e) => setSelectedBrandId(e.target.value)}>
+                                    <option value="">Choose a brand…</option>
+                                    {brandContext.brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+                                </select>
+                            </label>
+                        ) : (
+                            <p><strong>No approved brands yet.</strong> Request access from a brand in <em>My Brands</em> before uploading.</p>
+                        )
+                    )}
+                </div>
+            )}
 
             <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
@@ -722,6 +844,14 @@ export default function ProductUploadPage({
                 formData={formData} handleInputChange={handleInputChange}
                 attachments={attachments} setAttachments={setAttachments}
                 addNotification={addNotification}
+                onBeforeAfterSelect={onBeforeAfterSelect}
+                onBeforeAfterRemove={onBeforeAfterRemove}
+                uploadBeforeAfter={uploadBeforeAfter}
+                baUploading={baUploading}
+                baUploaded={baUploaded}
+                auth={auth}
+                session_id={session}
+                selectedSubCategory={selectedSubCategory}
             />}
 
             {activeTab === 'attachments' && <ProductAttachmentTab

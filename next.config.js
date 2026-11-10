@@ -6,10 +6,7 @@ const nextConfig = {
   turbopack: {},
   reactStrictMode: true,
 
-  // The seller panel lives at the root of this project: "/" -> "/seller"
-  async rewrites() {
-    return [{ source: '/', destination: '/seller' }];
-  },
+  // Subdomain → dashboard routing (seller / brand / distributor) lives in proxy.js.
 
   // Optional obfuscated production bundle:  npm run build:obfuscated
   webpack(config, { isServer, dev }) {

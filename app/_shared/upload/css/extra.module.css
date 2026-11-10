@@ -634,3 +634,455 @@
 .step.completed {
     background: #10b981;
 }
+
+/* =====================================================================
+   Before & After images
+   ===================================================================== */
+.ba_section {
+    margin-top: 28px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.ba_title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ba_title::before {
+    content: '🖼️';
+    font-size: 1.4rem;
+}
+
+.ba_question {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.ba_choice_row {
+    display: flex;
+    gap: 12px;
+}
+
+.ba_choice_btn {
+    min-width: 96px;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ba_choice_btn:hover:not(:disabled) {
+    border-color: #3b82f6;
+    color: #2563eb;
+}
+
+.ba_choice_btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ba_choice_active,
+.ba_choice_active:hover:not(:disabled) {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+.ba_hint {
+    margin: 12px 0 0 0;
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.ba_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+@media (min-width: 640px) {
+    .ba_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.ba_card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ba_card_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.ba_card_label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #475569;
+}
+
+.ba_badge {
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 999px;
+}
+
+.ba_badge_done {
+    color: #166534;
+    background: #dcfce7;
+}
+
+/* hidden native input — the <label> acts as the drop area */
+.ba_file_input {
+    display: none;
+}
+
+/* 16:8 (= 2:1) frame, same ratio the app's before/after slider uses */
+.ba_drop,
+.ba_preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ba_drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2563eb;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ba_drop:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+}
+
+.ba_drop small {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+.ba_drop_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #ffffff;
+    background: #2563eb;
+    border-radius: 50%;
+}
+
+.ba_preview {
+    border: 1px solid #e2e8f0;
+    background: #f1f5f9;
+}
+
+.ba_preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ba_remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #ffffff;
+    background: rgba(15, 23, 42, 0.7);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ba_remove:hover {
+    background: #ef4444;
+}
+
+.ba_actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.ba_submit {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #2563eb;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ba_submit:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.ba_submit:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.ba_done {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #166534;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+}
+
+/* =====================================================================
+   Affiliation switch
+   ===================================================================== */
+.aff_section {
+    margin-top: 28px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.aff_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.aff_text {
+    flex: 1;
+    min-width: 0;
+}
+
+.aff_title {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.aff_desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch_track {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: #cbd5e1;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+}
+
+.switch_thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+}
+
+.switch input:checked+.switch_track {
+    background: #16a34a;
+}
+
+.switch input:checked+.switch_track .switch_thumb {
+    transform: translateX(22px);
+}
+
+.switch input:focus-visible+.switch_track {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+.switch_text {
+    min-width: 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.aff_info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+}
+
+.aff_amount {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #166534;
+    background: #ffffff;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+}
+
+.aff_info_text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #166534;
+}
+
+@media (max-width: 640px) {
+
+    .ba_section,
+    .aff_section {
+        padding: 16px;
+    }
+
+    .aff_row {
+        align-items: flex-start;
+    }
+
+    .aff_info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .ba_actions {
+        justify-content: stretch;
+    }
+
+    .ba_submit,
+    .ba_done {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ---- Affiliation payout: loading / error states ---- */
+.aff_skeleton {
+    flex-shrink: 0;
+    width: 72px;
+    height: 38px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #dcfce7 25%, #bbf7d0 50%, #dcfce7 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+.aff_error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.aff_error_text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #991b1b;
+}
+
+.aff_retry {
+    flex-shrink: 0;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #991b1b;
+    background: #ffffff;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aff_retry:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+@media (max-width: 640px) {
+    .aff_error {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

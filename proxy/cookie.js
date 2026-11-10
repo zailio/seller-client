@@ -1,21 +1,12 @@
-// middleware.js
-import { NextResponse } from 'next/server';
 import config from '../utils/config';
 
-export default function middleware(request) {
+// Re-sets the shared AUTH-T cookie on the outgoing response so it stays fresh.
+// (Middleware cannot widen a cookie's scope; this only keeps it consistent.)
+export function refreshAuthCookie(request, response) {
   const auth = request.cookies.get('AUTH-T');
+  if (!auth) return response;
 
-  // If cookie doesn't exist, do nothing
-  if (!auth) {
-    return NextResponse.next();
-  }
-
-  // ⚠️ IMPORTANT:
-  // Middleware CANNOT expand cookie scope.
-  // This re-set only keeps it consistent.
-  const response = NextResponse.next();
   const isProd = process.env.NODE_ENV === 'production';
-
   response.cookies.set({
     name: 'AUTH-T',
     value: auth.value,
@@ -27,3 +18,4 @@ export default function middleware(request) {
   });
   return response;
 }
+
