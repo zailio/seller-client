@@ -4,6 +4,7 @@
 import { memo, useState, useEffect, useCallback, useRef } from 'react';
 import styles from './css/extra.module.css';
 import config from '../../../utils/config';
+import { Spinner } from '../ui/parts';
 
 const predefinedOptions = {
     productCondition: [
@@ -360,7 +361,7 @@ const ExtrasAttachmentsTab = memo(({
                                     disabled={!bothSelected || baUploading}
                                 >
                                     {baUploading
-                                        ? 'Uploading…'
+                                        ? <><Spinner />Uploading…</>
                                         : bothSelected
                                             ? 'Upload Before & After'
                                             : 'Add both images to upload'}

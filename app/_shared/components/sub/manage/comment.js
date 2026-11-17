@@ -13,6 +13,7 @@ import { BsPatchQuestion } from "react-icons/bs";
 import DotMenu from '../../../../../components/dots';
 
 import { useStore } from '../../../../../context/store';
+import { Spinner } from '../../../ui/parts';
 
 const CommentSection = ({
   auth,
@@ -570,7 +571,7 @@ const CommentSection = ({
               onClick={handleSubmit}
               disabled={!commentText.trim() || isSending || (100 - commentText.length) <= 0}
             >
-              {isSending ? 'Sending...' : 'Send'}
+              {isSending && <Spinner />}{isSending ? 'Sending...' : 'Send'}
             </button>
           </div>
         </div>}

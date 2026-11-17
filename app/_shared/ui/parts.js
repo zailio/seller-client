@@ -2,10 +2,40 @@
 
 import { useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { FiInbox } from 'react-icons/fi';
+import { FiInbox, FiLoader, FiToggleLeft, FiToggleRight } from 'react-icons/fi';
 import ui from './ui.module.css';
 
 export const cx = (...names) => names.filter(Boolean).join(' ');
+
+/** Small spinning icon for buttons while an API request is in flight. */
+export function Spinner({ size = 14 }) {
+    return <FiLoader size={size} className={ui.spinner} aria-hidden="true" />;
+}
+
+/**
+ * Icon-only active/inactive switch. Green toggle-on when active, grey toggle-off
+ * when inactive; while `loading` only the icon swaps to a spinner and the button
+ * is disabled so it cannot be double-clicked.
+ */
+export function StatusToggle({ active, loading = false, onClick, size = 18 }) {
+    const label = loading ? 'Updating…' : active ? 'Active — click to set inactive' : 'Inactive — click to set active';
+    const Icon = active ? FiToggleRight : FiToggleLeft;
+    return (
+        <button
+            type="button"
+            className={cx(ui.iconBtn, ui.statusToggle)}
+            data-state={loading ? 'loading' : active ? 'active' : 'inactive'}
+            title={label}
+            aria-label={label}
+            aria-pressed={active}
+            aria-busy={loading}
+            disabled={loading}
+            onClick={onClick}
+        >
+            {loading ? <Spinner size={size - 2} /> : <Icon size={size} />}
+        </button>
+    );
+}
 
 export function Badge({ tone = 'neutral', children, title }) {
     return <span className={cx(ui.badge, ui[tone])} title={title}>{children}</span>;

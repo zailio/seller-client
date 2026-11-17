@@ -5,7 +5,7 @@ import { FiSearch, FiPackage, FiEdit2, FiCopy, FiPower, FiMessageSquare, FiStar,
 import ui from '../ui/ui.module.css';
 import { bizPost } from '../../../utils/bizApi';
 import { rupees, shortDate } from '../ui/format';
-import { Badge, Drawer, Empty, Pager, SkeletonRows, Thumb, cx, useDebouncedEffect } from '../ui/parts';
+import { Badge, Drawer, Empty, Pager, SkeletonRows, Spinner, StatusToggle, Thumb, cx, useDebouncedEffect } from '../ui/parts';
 import FeedbackPanel from './FeedbackPanel';
 
 const STOCK = {
@@ -85,7 +85,9 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
     const [data, setData] = useState({ products: [], total: 0, total_pages: 1, counts: {}, categories: [] });
     const [loading, setLoading] = useState(true);
     const [selected, setSelected] = useState(new Set());
-    const [busy, setBusy] = useState(false);
+    const [busy, setBusy] = useState(null); // 'active' | 'inactive' while a bulk update runs
+    const [pending, setPending] = useState(() => new Set()); // product ids with a status request in flight
+    const [stockSaving, setStockSaving] = useState(null); // product id whose stock is being saved
     const [openProduct, setOpenProduct] = useState(null);
 
     const query = { search, status: status === 'all' ? undefined : status, stock: stock === 'all' ? undefined : stock, category: category || undefined, brand_id: brandId || undefined, sort };
@@ -121,7 +123,7 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
     const toggleAll = () => setSelected(allOnPage ? new Set() : new Set(data.products.map((p) => p.id)));
 
     const bulk = async (nextStatus) => {
-        setBusy(true);
+        setBusy(nextStatus);
         try {
             const res = await bizPost('products/bulk-status', creds, { ids: [...selected], status: nextStatus });
             addNotification({ h2: 'Products updated', desc: `${res.updated} product${res.updated === 1 ? '' : 's'} set to ${nextStatus}.`, tag: 'done' });
@@ -129,21 +131,32 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
         } catch (err) {
             addNotification({ h2: 'Update failed', desc: err.message, tag: 'error' });
         } finally {
-            setBusy(false);
+            setBusy(null);
         }
     };
 
+    const setPendingId = (id, on) => setPending((prev) => {
+        const next = new Set(prev);
+        if (on) next.add(id); else next.delete(id);
+        return next;
+    });
+
     const setOneStatus = async (product, nextStatus) => {
+        if (pending.has(product.id)) return;
+        setPendingId(product.id, true);
         try {
             await bizPost('products/bulk-status', creds, { ids: [product.id], status: nextStatus });
             setData((d) => ({ ...d, products: d.products.map((p) => (p.id === product.id ? { ...p, status: nextStatus } : p)) }));
             setOpenProduct((p) => (p && p.id === product.id ? { ...p, status: nextStatus } : p));
         } catch (err) {
             addNotification({ h2: 'Update failed', desc: err.message, tag: 'error' });
+        } finally {
+            setPendingId(product.id, false);
         }
     };
 
     const saveStock = async (product, quantity) => {
+        setStockSaving(product.id);
         try {
             const res = await bizPost('products/update-stock', creds, { product_id: product.id, quantity });
             const patch = { quantity: res.quantity, stock_state: res.stock_state };
@@ -152,6 +165,8 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
             addNotification({ h2: 'Stock updated', desc: `${product.title}: ${res.quantity} in stock.`, tag: 'done' });
         } catch (err) {
             addNotification({ h2: 'Stock', desc: err.message, tag: 'error' });
+        } finally {
+            setStockSaving(null);
         }
     };
 
@@ -175,9 +190,9 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
                 {selected.size > 0 ? (
                     <div className={ui.bulkBar}>
                         <strong>{selected.size} selected</strong>
-                        <button className={ui.btn} disabled={busy} onClick={() => bulk('active')}>Set active</button>
-                        <button className={ui.btn} disabled={busy} onClick={() => bulk('inactive')}>Set inactive</button>
-                        <button className={ui.btn} onClick={() => setSelected(new Set())} style={{ marginLeft: 'auto' }}>Clear selection</button>
+                        <button className={ui.btn} disabled={Boolean(busy)} onClick={() => bulk('active')}>{busy === 'active' && <Spinner />} Set active</button>
+                        <button className={ui.btn} disabled={Boolean(busy)} onClick={() => bulk('inactive')}>{busy === 'inactive' && <Spinner />} Set inactive</button>
+                        <button className={ui.btn} disabled={Boolean(busy)} onClick={() => setSelected(new Set())} style={{ marginLeft: 'auto' }}>Clear selection</button>
                     </div>
                 ) : (
                     <div className={ui.toolbar}>
@@ -256,7 +271,7 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
                                         <td onClick={(e) => e.stopPropagation()}>
                                             <div style={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                                                 {onEditProduct && <button className={ui.iconBtn} title="Edit product" aria-label="Edit product" onClick={() => onEditProduct(p.sku)}><FiEdit2 size={15} /></button>}
-                                                <button className={ui.iconBtn} title={p.status === 'active' ? 'Set inactive' : 'Set active'} aria-label="Toggle status" onClick={() => setOneStatus(p, p.status === 'active' ? 'inactive' : 'active')}><FiPower size={15} /></button>
+                                                <StatusToggle active={p.status === 'active'} loading={pending.has(p.id)} onClick={() => setOneStatus(p, p.status === 'active' ? 'inactive' : 'active')} />
                                             </div>
                                         </td>
                                     </tr>
@@ -279,13 +294,15 @@ function ProductTable({ creds, addNotification, role, onEditProduct, brandFilter
                 onEdit={onEditProduct}
                 onStatus={setOneStatus}
                 onStock={saveStock}
+                statusLoading={openProduct ? pending.has(openProduct.id) : false}
+                stockLoading={openProduct ? stockSaving === openProduct.id : false}
                 addNotification={addNotification}
             />
         </>
     );
 }
 
-function ProductDrawer({ product, onClose, onEdit, onStatus, onStock, addNotification }) {
+function ProductDrawer({ product, onClose, onEdit, onStatus, onStock, statusLoading, stockLoading, addNotification }) {
     const [stockInput, setStockInput] = useState('');
     useEffect(() => { setStockInput(product ? String(product.quantity) : ''); }, [product?.id, product?.quantity]);
     if (!product) return null;
@@ -333,7 +350,7 @@ function ProductDrawer({ product, onClose, onEdit, onStatus, onStock, addNotific
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                     <span className={ui.stockBar}><span className={ui.stockDot} style={{ background: st.color }} /> {st.label}</span>
                     <input className={ui.input} style={{ width: 110 }} inputMode="numeric" value={stockInput} onChange={(e) => setStockInput(e.target.value.replace(/\D/g, ''))} aria-label="Stock quantity" />
-                    <button className={cx(ui.btn, ui.btnPrimary)} disabled={!stockChanged} onClick={() => onStock(product, Number(stockInput))}>Save stock</button>
+                    <button className={cx(ui.btn, ui.btnPrimary)} disabled={!stockChanged || stockLoading} onClick={() => onStock(product, Number(stockInput))}>{stockLoading && <Spinner />} {stockLoading ? 'Saving…' : 'Save stock'}</button>
                 </div>
             </section>
 
@@ -350,8 +367,8 @@ function ProductDrawer({ product, onClose, onEdit, onStatus, onStock, addNotific
 
             <section className={ui.section} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {onEdit && <button className={cx(ui.btn, ui.btnPrimary)} onClick={() => onEdit(product.sku)}><FiEdit2 size={14} /> Edit full details</button>}
-                <button className={cx(ui.btn, product.status === 'active' && ui.btnDanger)} onClick={() => onStatus(product, product.status === 'active' ? 'inactive' : 'active')}>
-                    <FiPower size={14} /> {product.status === 'active' ? 'Set inactive' : 'Set active'}
+                <button className={cx(ui.btn, product.status === 'active' && ui.btnDanger)} disabled={statusLoading} onClick={() => onStatus(product, product.status === 'active' ? 'inactive' : 'active')}>
+                    {statusLoading ? <Spinner /> : <FiPower size={14} />} {product.status === 'active' ? 'Set inactive' : 'Set active'}
                 </button>
             </section>
         </Drawer>

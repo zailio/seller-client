@@ -4,7 +4,6 @@
     --muted: #6b7280;
     --border: #e8eaf0;
     --bg-soft: #f6f7fb;
-    max-width: 1200px;
     margin: 0 auto;
     padding: 24px 16px 120px;
     color: var(--text);

@@ -40,6 +40,7 @@ import StorefrontStudio from '../_shared/storefront/Studio';
 import SupportCenter from '../_shared/support/main';
 import ProductsHub from '../_shared/products/ProductsHub';
 import EventOffers from '../_shared/event-offers/main';
+import { Spinner } from '../_shared/ui/parts';
 
 export default function DashboardShell({ result, role, nav, renderRoleView }) {
     const meta = ROLES[role];
@@ -308,7 +309,7 @@ export default function DashboardShell({ result, role, nav, renderRoleView }) {
                                 {errors && <div className={styles.errorMessage}>{errors}</div>}
                             </div>
                             <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
-                                {isSubmitting ? 'Authenticating...' : 'Authenticate'}
+                                {isSubmitting && <Spinner />}{isSubmitting ? 'Authenticating...' : 'Authenticate'}
                             </button>
                         </form>
                     </div>

@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import config from '../../../utils/config';
 import 'cropperjs/dist/cropper.css';
+import { Spinner } from '../ui/parts';
 
 const DeliveryWarehousePage = ({
   auth,
@@ -973,7 +974,7 @@ const DeliveryWarehousePage = ({
               onClick={handleConnect}
               disabled={isConnecting}
             >
-              {isConnecting ? 'Connecting...' : 'Connect Account'}
+              {isConnecting && <Spinner />}{isConnecting ? 'Connecting...' : 'Connect Account'}
             </button>
 
             <a

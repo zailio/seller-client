@@ -128,3 +128,16 @@ thead .stickyCol {
     font-weight: 600;
     font-size: 13.5px;
 }
+
+/* Order column: ID, date and status stacked so the column stays narrow */
+.salesTable td.stickyCol {
+    width: 1%;
+    line-height: 1.35;
+}
+
+/* Product column: tighter than the shared productCell */
+.productCellTight {
+    min-width: 160px;
+    max-width: 200px;
+    gap: 8px;
+}

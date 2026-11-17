@@ -8,7 +8,7 @@ import ui from '../ui/ui.module.css';
 import styles from './salesV2.module.css';
 import { bizPost, downloadText } from '../../../utils/bizApi';
 import { rupees, compactRupees, shortDate, dateTime, PROFIT_STATUS, orderStatus } from '../ui/format';
-import { Badge, Drawer, Empty, Pager, SkeletonRows, Thumb, cx, useDebouncedEffect } from '../ui/parts';
+import { Badge, Drawer, Empty, Pager, SkeletonRows, Spinner, Thumb, cx, useDebouncedEffect } from '../ui/parts';
 
 const RANGES = [
     { id: '7d', label: '7 days', days: 7 },
@@ -188,7 +188,7 @@ const SalesManage = ({ auth, session, addNotification, setSales }) => {
                 </div>
                 <div className={ui.headerActions}>
                     <button className={ui.btn} onClick={exportCsv} disabled={exporting || loading}>
-                        <FiDownload size={15} /> {exporting ? 'Exporting…' : 'Export CSV'}
+                        {exporting ? <Spinner size={15} /> : <FiDownload size={15} />} {exporting ? 'Exporting…' : 'Export CSV'}
                     </button>
                 </div>
             </div>
@@ -336,10 +336,11 @@ const SalesManage = ({ auth, session, addNotification, setSales }) => {
                                     <tr key={o.id} className={cx(ui.rowClickable, openId === o.id && ui.rowSelected)} onClick={() => setOpenId(o.id)}>
                                         <td className={styles.stickyCol}>
                                             <span className={cx(ui.cellTitle, ui.mono)}>{o.order_label}</span>
-                                            <span className={ui.cellSub}>{shortDate(o.created_at)}{view === 'full' && <> · <span className={styles.inlineStatus} data-tone={st.tone}>{st.label}</span></>}</span>
+                                            <span className={ui.cellSub}>{shortDate(o.created_at)}</span>
+                                            {view === 'full' && <span className={cx(ui.cellSub, styles.inlineStatus)} data-tone={st.tone}>{st.label}</span>}
                                         </td>
                                         <td>
-                                            <div className={ui.productCell}>
+                                            <div className={cx(ui.productCell, styles.productCellTight)}>
                                                 <Thumb src={o.product.image} />
                                                 <div style={{ minWidth: 0 }}>
                                                     <span className={ui.cellTitle} title={o.product.title}>{o.product.title}</span>

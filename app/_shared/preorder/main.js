@@ -9,6 +9,7 @@ import {
 import styles from './page.module.css';
 import Wait from '../../../components/wait';
 import config from '../../../utils/config';
+import { Spinner } from '../ui/parts';
 
 /* ------------------------------------------------------------------ */
 /* API                                                                 */
@@ -401,7 +402,7 @@ const PreorderModal = ({ items, existingMap, saving, onClose, onSave }) => {
                 <div className={styles.modalActions}>
                     <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={saving}>Cancel</button>
                     <button type="submit" className={styles.primaryBtn} disabled={saving}>
-                        {saving ? 'Saving…' : base ? 'Save changes' : single ? 'Add to pre-order' : `Add ${items.length} products`}
+                        {saving && <Spinner />}{saving ? 'Saving…' : base ? 'Save changes' : single ? 'Add to pre-order' : `Add ${items.length} products`}
                     </button>
                 </div>
             </form>
@@ -496,7 +497,7 @@ const ScheduleModal = ({ product, pre, saving, onClose, onSave, onClear }) => {
                     <div className={styles.actionsGroup}>
                         <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={saving}>Cancel</button>
                         <button type="submit" className={styles.primaryBtn} disabled={saving}>
-                            {saving ? 'Saving…' : 'Save schedule'}
+                            {saving && <Spinner />}{saving ? 'Saving…' : 'Save schedule'}
                         </button>
                     </div>
                 </div>
@@ -555,7 +556,7 @@ const DeleteModal = ({ items, saving, onClose, onConfirm }) => {
                 <div className={styles.modalActions}>
                     <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={saving}>Cancel</button>
                     <button type="submit" className={styles.dangerBtn} disabled={!enough || saving}>
-                        {saving ? 'Removing…' : 'Remove pre-order'}
+                        {saving && <Spinner />}{saving ? 'Removing…' : 'Remove pre-order'}
                     </button>
                 </div>
             </form>

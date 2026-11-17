@@ -12,6 +12,7 @@ import ProductRestriction from './productRestriction';
 import CouponProductsModal from './productModel';
 
 import config from '../../../utils/config';
+import { Spinner } from '../ui/parts';
 
 const emptyForm = {
     code: '',
@@ -455,7 +456,7 @@ const CouponManage = ({
                         <div className={styles.modalActions}>
                             <button className={styles.cancelBtn} disabled={creating} onClick={() => setShowCreate(false)}>Cancel</button>
                             <button className={styles.saveBtn} disabled={creating} onClick={createCoupon}>
-                                {creating ? 'Creating…' : 'Create'}
+                                {creating && <Spinner />}{creating ? 'Creating…' : 'Create'}
                             </button>
                         </div>
                     </div>

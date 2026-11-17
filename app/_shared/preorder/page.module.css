@@ -10,7 +10,6 @@
     --warn: #d97706;
     --danger: #dc2626;
 
-    max-width: 1200px;
     margin: 0 auto;
     padding: 24px 16px 110px;
     color: var(--text);

@@ -6,6 +6,7 @@ import styles from './coupon.module.css';
 import Wait from '../../../components/wait';
 import ProductRestriction from './productRestriction';
 import config from '../../../utils/config';
+import { Spinner } from '../ui/parts';
 
 const CouponProductsModal = ({ auth, session, coupon, onClose, onSaved, addNotification }) => {
     const [loading, setLoading] = useState(true);
@@ -105,7 +106,7 @@ const CouponProductsModal = ({ auth, session, coupon, onClose, onSaved, addNotif
                 <div className={styles.modalActions}>
                     <button className={styles.cancelBtn} disabled={saving} onClick={onClose}>Cancel</button>
                     <button className={styles.saveBtn} disabled={saving || loading} onClick={save}>
-                        {saving ? 'Saving…' : 'Save changes'}
+                        {saving && <Spinner />}{saving ? 'Saving…' : 'Save changes'}
                     </button>
                 </div>
             </div>

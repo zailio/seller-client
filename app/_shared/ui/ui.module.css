@@ -21,7 +21,6 @@
     --info: #1d4ed8;
     --info-soft: #eff6ff;
 
-    max-width: 1280px;
     margin: 0 auto;
     padding: 24px 24px 64px;
     color: var(--text);
@@ -926,7 +925,53 @@
     font-size: 13px;
 }
 
+/* ───────── loading + status toggle ───────── */
+
+.spinner {
+    display: inline-block;
+    flex-shrink: 0;
+    animation: spin 0.75s linear infinite;
+}
+
+.iconBtn:disabled,
+.btnLink:disabled {
+    cursor: default;
+}
+
+.iconBtn:disabled:hover {
+    background: transparent;
+}
+
+/* Active = green, inactive = grey; hover hints at what a click will do */
+.statusToggle[data-state='active'] {
+    color: var(--success);
+}
+
+.statusToggle[data-state='active']:hover:not(:disabled) {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.statusToggle[data-state='inactive'] {
+    color: var(--faint);
+}
+
+.statusToggle[data-state='inactive']:hover:not(:disabled) {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.statusToggle[data-state='loading'] {
+    color: var(--accent);
+}
+
 /* ───────── animations ───────── */
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 @keyframes fadeIn {
     from {
@@ -986,4 +1031,15 @@
     .drawer {
         width: 100%;
     }
+}
+
+/* Spinner spacing when it sits inside a non-flex button */
+.spinner {
+    vertical-align: -0.125em;
+    margin-right: 0.4em;
+}
+
+.btn > .spinner,
+.iconBtn > .spinner {
+    margin-right: 0;
 }

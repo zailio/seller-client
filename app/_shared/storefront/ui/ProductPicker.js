@@ -6,6 +6,7 @@ import { formatPrice, debounce } from '../lib/utils';
 import pal from '../panels/panels.module.css';
 import m from './modal.module.css';
 import { st, cx } from './controls';
+import { Spinner } from '../../ui/parts';
 
 export default function ProductPicker({ request, products, onClose }) {
   const { title = 'Choose products', multiple = true, selected = [], onConfirm } = request;
@@ -61,7 +62,7 @@ export default function ProductPicker({ request, products, onClose }) {
               );
             })}
           </div>
-          {products.hasMore && !usingSamples ? <button type="button" className={cx(st.btn, st.btnBlock)} style={{ marginTop: 10 }} onClick={products.loadMore} disabled={products.loading}>{products.loading ? 'Loading…' : 'Load more'}</button> : null}
+          {products.hasMore && !usingSamples ? <button type="button" className={cx(st.btn, st.btnBlock)} style={{ marginTop: 10 }} onClick={products.loadMore} disabled={products.loading}>{products.loading ? <><Spinner />Loading…</> : 'Load more'}</button> : null}
         </div>
         <div className={m.foot}>
           <button type="button" className={st.btn} onClick={onClose}>Cancel</button>

@@ -16,6 +16,7 @@
     "cropperjs": "^1.6.2",
     "js-cookie": "^3.0.5",
     "next": "^16.0.7",
+    "pdfjs-dist": "5.7.284\n5.7.284",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-dropzone": "^14.4.0",

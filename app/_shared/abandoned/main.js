@@ -10,6 +10,7 @@ import Wait from '../../../components/wait';
 
 import config from '../../../utils/config';
 import { formatReadableDate12, timeAgo } from '../../../utils/fn';
+import { Spinner } from '../ui/parts';
 
 const PRICE_RANGES = [
     { value: 'all', label: 'All prices', test: () => true },
@@ -301,7 +302,7 @@ const AbandonedCart = ({
                                                 disabled={isSending}
                                                 onClick={() => sendMail([cart.id])}
                                             >
-                                                <FiMail /> {isSending ? 'Sending…' : 'Send mail'}
+                                                {isSending ? <Spinner /> : <FiMail />} {isSending ? 'Sending…' : 'Send mail'}
                                             </button>
                                         </div>
                                     </div>

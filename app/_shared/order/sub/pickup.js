@@ -7,14 +7,21 @@ import config from '../../../../utils/config';
 import { MdArrowRight, MdOutlineSettingsBackupRestore } from 'react-icons/md';
 import { ImSpinner2 } from 'react-icons/im';
 import { FaEllipsisV, FaInfoCircle, FaBoxOpen, FaLink } from 'react-icons/fa';
+import LabelViewer from '../../../../components/LabelViewer';
 
 const formatMoney = (value) => `₹${Number(value).toLocaleString('en-IN')}`;
 const COMBO_TINT_COUNT = 5; // number of tint classes defined in the CSS (.comboTint0..4)
 
 // label size options sent to /seller/create-label as `label_size`
 const LABEL_SIZES = [
-    { value: 'a4', label: 'A4' },
-    { value: '4x6', label: '4 x 6 in' },
+    { value: 'a4', label: 'A4 (4 per page)' },
+    { value: '4x6', label: '4 x 6 in thermal' },
+];
+// documents /seller/create-label can generate (`document`)
+const DOCUMENTS = [
+    { value: 'shipping_label', label: 'Shipping label' },
+    { value: 'packing_slip', label: 'Packing slip' },
+    { value: 'fulfilment_sheet', label: 'Fulfilment sheet' },
 ];
 
 const PickupOrders = ({
@@ -31,6 +38,11 @@ const PickupOrders = ({
     const [backToConfirm, setBackToConfirm] = useState(false);
     const [labelFilter, setLabelFilter] = useState(0);
     const [labelSize, setLabelSize] = useState('a4');
+    const [documentType, setDocumentType] = useState('shipping_label');
+    // Labels created in this tab. The server deletes a PDF after its first download,
+    // so the downloaded Blob is kept here to view / print / download again.
+    const [recentLabels, setRecentLabels] = useState([]);
+    const [viewing, setViewing] = useState(null);
 
     // orders visible under the current label-count filter
     const selectList = useMemo(() => {
@@ -133,6 +145,7 @@ const PickupOrders = ({
                     session_id: session,
                     order_ids: checked,
                     label_size: labelSize, // 'a4' | '4x6'
+                    document: documentType,
                 }),
             });
             if (!res.ok) {
@@ -141,27 +154,44 @@ const PickupOrders = ({
             const result = await res.json();
             if (result.data.status) {
                 const pdfResponse = await fetch(result.data.dl_url);
+                if (!pdfResponse.ok) throw new Error('PDF download failed');
                 const blob = await pdfResponse.blob();
-                const url = window.URL.createObjectURL(blob);
-
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = result.data.fileName;
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(link);
-                }, 100);
+                const docLabel = DOCUMENTS.find((d) => d.value === documentType)?.label || 'Label';
+                const printed = result.data.printed_order_ids || checked;
+                const entry = {
+                    id: result.data.fileName,
+                    blob,
+                    fileName: result.data.fileName,
+                    title: `${docLabel} · ${printed.length} order${printed.length === 1 ? '' : 's'}`,
+                    createdAt: new Date(),
+                };
+                setRecentLabels((list) => [entry, ...list].slice(0, 10));
+                setViewing(entry);
+                if (Array.isArray(result.data.issues) && result.data.issues.length) {
+                    addNotification({
+                        h2: 'Some orders were skipped',
+                        desc: `${result.data.issues.length} order(s) could not be printed — check the warnings.`,
+                        tag: 'info',
+                    });
+                }
 
                 // label_created counts on the affected orders have changed,
                 // which shifts which rows show under the current filter —
                 // force the pickup tab to refetch rather than mutating locally
                 setChecked([]);
                 if (onOrderMoved) onOrderMoved(null, null, 'pickup');
-            };
+            } else {
+                const issues = Array.isArray(result.data.issues) ? result.data.issues : [];
+                const first = issues[0];
+                addNotification({
+                    h2: 'Label not created',
+                    desc: [
+                        typeof result.data.message === 'string' ? result.data.message : 'No order could be printed.',
+                        first ? `${first.order_ref || ''} ${(first.errors || []).join(', ')}`.trim() : '',
+                    ].filter(Boolean).join(' — '),
+                    tag: 'error',
+                });
+            }
         } catch (e) {
             console.log(e);
             addNotification({
@@ -274,6 +304,18 @@ const PickupOrders = ({
 
                     <select
                         className={styles.selectBox}
+                        value={documentType}
+                        onChange={(e) => setDocumentType(e.target.value)}
+                        aria-label="Document"
+                    >
+                        {DOCUMENTS.map(opt => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        className={styles.selectBox}
+                        disabled={documentType !== 'shipping_label'}
                         value={labelSize}
                         onChange={(e) => setLabelSize(e.target.value)}
                         aria-label="Label size"
@@ -294,6 +336,27 @@ const PickupOrders = ({
                     </button>
                 </div>
             </div>
+
+            {recentLabels.length > 0 && (
+                <div className={styles.recentLabels}>
+                    <span className={styles.recentTitle}>Labels from this session:</span>
+                    {recentLabels.map((l) => (
+                        <button key={l.id} className={styles.recentChip} onClick={() => setViewing(l)}>
+                            {l.title} · {l.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            {viewing && (
+                <LabelViewer
+                    blob={viewing.blob}
+                    fileName={viewing.fileName}
+                    title={viewing.title}
+                    onClose={() => setViewing(null)}
+                    addNotification={addNotification}
+                />
+            )}
 
             {!selectList.length ? (
                 <div className={styles.emptyState}>

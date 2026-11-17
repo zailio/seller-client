@@ -5,7 +5,7 @@ import { FiMessageSquare, FiStar, FiHelpCircle, FiCornerDownRight } from 'react-
 import ui from '../ui/ui.module.css';
 import { bizPost } from '../../../utils/bizApi';
 import { timeAgo, dateTime } from '../ui/format';
-import { Badge, Empty, Pager, Initials, Thumb, cx } from '../ui/parts';
+import { Badge, Empty, Pager, Initials, Spinner, Thumb, cx } from '../ui/parts';
 
 const COPY = {
     comments: { icon: FiMessageSquare, noun: 'comment', empty: 'No comments yet', max: 500, placeholder: 'Reply publicly to this comment…' },
@@ -154,7 +154,7 @@ function FeedbackItem({ item, type, copy, creds, addNotification, onReply }) {
                         <div className={ui.replyActions}>
                             <span className={ui.cellSub} style={{ marginRight: 'auto' }}>{text.length}/{copy.max}</span>
                             <button className={cx(ui.btn, ui.btnSm)} onClick={() => setOpen(false)} disabled={sending}>Cancel</button>
-                            <button className={cx(ui.btn, ui.btnSm, ui.btnPrimary)} onClick={send} disabled={sending || !text.trim()}>{sending ? 'Posting…' : 'Post reply'}</button>
+                            <button className={cx(ui.btn, ui.btnSm, ui.btnPrimary)} onClick={send} disabled={sending || !text.trim()}>{sending && <Spinner size={13} />} {sending ? 'Posting…' : 'Post reply'}</button>
                         </div>
                     </div>
                 ) : (
