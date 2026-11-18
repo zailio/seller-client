@@ -11,7 +11,7 @@
 // Blob that was already downloaded and never fetches it again.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FiDownload, FiPrinter, FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi';
+import { FiDownload, FiExternalLink, FiPrinter, FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi';
 import styles from './css/labelViewer.module.css';
 
 const PRINT_DPI = 300; // sharp barcodes on 203/300 dpi printers and office printers
@@ -21,7 +21,9 @@ let pdfjsPromise = null;
 function loadPdfjs() {
     if (!pdfjsPromise) {
         pdfjsPromise = import('pdfjs-dist').then((pdfjs) => {
-            pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString();
+            // served from /public (copied by the postinstall script) so it resolves the
+            // same way under Turbopack and webpack
+            pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
             return pdfjs;
         });
     }
@@ -74,6 +76,16 @@ export default function LabelViewer({ blob, fileName, title, onClose, addNotific
     const [zoom, setZoom] = useState(1);
     const [printing, setPrinting] = useState(false);
     const [printPages, setPrintPages] = useState(null); // [{src, wIn, hIn}]
+    const [blobUrl, setBlobUrl] = useState(null);
+
+    // one object URL for the life of the viewer: download, "open in new tab" and the
+    // built-in browser viewer fallback all use it
+    useEffect(() => {
+        const pdf = blob.type === 'application/pdf' ? blob : new Blob([blob], { type: 'application/pdf' });
+        const url = URL.createObjectURL(pdf);
+        setBlobUrl(url);
+        return () => URL.revokeObjectURL(url);
+    }, [blob]);
 
     useEffect(() => {
         let cancelled = false;
@@ -85,7 +97,8 @@ export default function LabelViewer({ blob, fileName, title, onClose, addNotific
                 loaded = await pdfjs.getDocument({ data }).promise;
                 if (!cancelled) setDoc(loaded);
             } catch (e) {
-                if (!cancelled) setError('This PDF could not be opened.');
+                console.error('LabelViewer: pdf.js failed', e);
+                if (!cancelled) setError('Preview unavailable here — showing the browser PDF viewer.');
             }
         })();
         return () => {
@@ -105,17 +118,19 @@ export default function LabelViewer({ blob, fileName, title, onClose, addNotific
     }, [onClose]);
 
     const download = useCallback(() => {
-        const url = URL.createObjectURL(blob);
+        if (!blobUrl) return;
         const link = document.createElement('a');
-        link.href = url;
+        link.href = blobUrl;
         link.download = fileName?.endsWith('.pdf') ? fileName : `${fileName || 'label'}.pdf`;
+        link.rel = 'noopener';
         document.body.appendChild(link);
         link.click();
-        setTimeout(() => {
-            URL.revokeObjectURL(url);
-            link.remove();
-        }, 200);
-    }, [blob, fileName]);
+        link.remove();
+    }, [blobUrl, fileName]);
+
+    const openInTab = useCallback(() => {
+        if (blobUrl) window.open(blobUrl, '_blank', 'noopener');
+    }, [blobUrl]);
 
     // Pages → images at PRINT_DPI, then the browser prints only those, with @page set
     // to the PDF's page size (4x6 in or A4) and no margins.
@@ -187,7 +202,8 @@ export default function LabelViewer({ blob, fileName, title, onClose, addNotific
                     <div className={styles.actions}>
                         <button className={styles.iconBtn} onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)))} aria-label="Zoom out"><FiZoomOut /></button>
                         <button className={styles.iconBtn} onClick={() => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)))} aria-label="Zoom in"><FiZoomIn /></button>
-                        <button className={styles.btn} onClick={download}><FiDownload /> <span>Download</span></button>
+                        <button className={styles.btn} onClick={openInTab} disabled={!blobUrl}><FiExternalLink /> <span>Open</span></button>
+                        <button className={styles.btn} onClick={download} disabled={!blobUrl}><FiDownload /> <span>Download</span></button>
                         <button className={`${styles.btn} ${styles.primary}`} onClick={print} disabled={!doc || printing}>
                             <FiPrinter /> <span>{printing ? 'Preparing…' : 'Print'}</span>
                         </button>
@@ -195,7 +211,10 @@ export default function LabelViewer({ blob, fileName, title, onClose, addNotific
                     </div>
                 </div>
                 <div className={styles.body}>
-                    {error && <div className={styles.error}>{error} <button className={styles.btn} onClick={download}>Download instead</button></div>}
+                    {error && <div className={styles.error}>{error} <button className={styles.btn} onClick={download}>Download</button></div>}
+                    {error && blobUrl && (
+                        <iframe src={blobUrl} title={title || 'Label'} style={{ width: '100%', height: '75vh', border: 0, background: '#fff' }} />
+                    )}
                     {!error && !doc && <div className={styles.loading}>Loading label…</div>}
                     {doc && Array.from({ length: doc.numPages }, (_, i) => (
                         <PageCanvas key={i} doc={doc} pageNumber={i + 1} zoom={zoom} />

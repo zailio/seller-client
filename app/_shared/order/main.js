@@ -233,7 +233,7 @@ const OrderManagement = ({ auth, session, addNotification, overall, setOverall, 
 
                 <Overall overall={overall} />
                 <div className={styles.filterSortContainer}>
-                    <Options activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <Options activeTab={activeTab} setActiveTab={setActiveTab} overall={overall} />
                     <div className={styles.sortOptions}>
                         <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className={styles.sortSelect}>
                             <option value="all">All</option>

@@ -153,9 +153,17 @@ const PickupOrders = ({
             };
             const result = await res.json();
             if (result.data.status) {
-                const pdfResponse = await fetch(result.data.dl_url);
-                if (!pdfResponse.ok) throw new Error('PDF download failed');
-                const blob = await pdfResponse.blob();
+                // The server builds dl_url with a fixed protocol (https), which breaks on
+                // http hosts (local dev), so fetch the file from the API we already talk to.
+                const pdfUrl = result.data.fileName
+                    ? `${config.SERVER_URL}/api/pdf/${encodeURIComponent(result.data.fileName)}.pdf`
+                    : result.data.dl_url;
+                const pdfResponse = await fetch(pdfUrl, { cache: 'no-store' });
+                if (!pdfResponse.ok) throw new Error(`PDF download failed (${pdfResponse.status})`);
+                const bytes = await pdfResponse.arrayBuffer();
+                const head = new TextDecoder().decode(new Uint8Array(bytes, 0, Math.min(5, bytes.byteLength)));
+                if (head !== '%PDF-') throw new Error('Server did not return a PDF');
+                const blob = new Blob([bytes], { type: 'application/pdf' });
                 const docLabel = DOCUMENTS.find((d) => d.value === documentType)?.label || 'Label';
                 const printed = result.data.printed_order_ids || checked;
                 const entry = {

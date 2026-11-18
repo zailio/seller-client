@@ -8,7 +8,8 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "build:obfuscated": "OBFUSCATE=1 next build --webpack",
-    "start": "next start -p 3001"
+    "start": "next start -p 3001",
+    "postinstall": "node -e \"require('fs').copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs','public/pdf.worker.min.mjs')\""
   },
   "dependencies": {
     "chart.js": "^4.4.8",
@@ -16,7 +17,7 @@
     "cropperjs": "^1.6.2",
     "js-cookie": "^3.0.5",
     "next": "^16.0.7",
-    "pdfjs-dist": "5.7.284\n5.7.284",
+    "pdfjs-dist": "5.7.284",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-dropzone": "^14.4.0",
